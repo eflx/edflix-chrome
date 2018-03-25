@@ -48,12 +48,12 @@ function setup()
     // create the EdFlix element and insert it into the right place
     var edflixElement = document.createElement("div");
 
+    edflixElement.id = "xyz";
     edflixElement.style = "padding: 8px; padding-left: 0";
-    edflixElement.innerHTML = '<button id="edflix" class="btn btn-lg btn-primary" data-bind="click: onClick">+ EdFlix</button>';
 
     infoElement.parentElement.insertBefore(edflixElement, infoElement);
 
-    ko.applyBindings(new EdFlixButton());
+    new EdFlixButton();
 }
 
 var timer = setInterval(onDocumentLoaded, 1000);

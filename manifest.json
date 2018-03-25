@@ -9,9 +9,17 @@
     {
       "matches": ["https://*.youtube.com/watch?v=*"],
       "css": ["css/bootstrap.min.css"],
-      "js": ["js/bootstrap.min.js", "js/underscore-min.js", "js/knockout-min.js", "content.js", "EdFlixButton.js"],
+      "js": [
+        "js/jquery-min.js",
+        "js/bootstrap.min.js",
+        "js/underscore-min.js",
+        "js/knockout-min.js",
+        "content.js",
+        "EdFlixButton.js"
+      ],
       "run_at": "document_end"
     }
   ],
-  "permissions": ["storage", "tabs"]
+  "permissions": ["storage", "tabs"],
+  "web_accessible_resources": ["templates/*"]
 }
