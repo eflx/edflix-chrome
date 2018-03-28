@@ -6,15 +6,21 @@ function EdFlixButton()
     // html is loaded from the template. see self.init()
 
     self.url = ko.observable("");
+    self.text = ko.observable("+ EdFlix");
 
     self.setUrl = function(url)
     {
         self.url(url);
 
+        self.text("EdFlix");
+
         // turn button green
         self.element.classList.remove("btn-primary");
         self.element.classList.add("btn-success");
 
+        // turn it into a menu button
+        self.element.classList.add("dropdown-toggle");
+        self.element.setAttribute("data-toggle", "dropdown");
     };
 
     self.onClick = function()
@@ -28,7 +34,7 @@ function EdFlixButton()
         }
 
         // when the button already has the URL, then show the popup
-        alert("The URL for this button is " + self.url());
+        //alert("The URL for this button is " + self.url());
     };
 
     self.init = function()
