@@ -1,7 +1,16 @@
-#edflix-menu
+body
 {
-    border-radius: 2px;
-    border: 1px solid green;
-    background-color: ivory;
-    padding: 4px
+    width: 500px;
+    font-family: "Roboto";
+}
+
+#form-container
+{
+    padding: 8px;
+    border: 1px solid silver;
+}
+
+#edflix
+{
+    margin: 0 4px 0 4px;
 }
