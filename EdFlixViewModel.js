@@ -45,7 +45,7 @@ function EdFlixViewModel()
         video.rating = self.rating();
         video.intuitive = self.intuitive();
 
-        localStorage.setItem(self.url(), video);
+        localStorage.setItem(self.url(), JSON.stringify(video));
 
         event.preventDefault();
     }
@@ -57,6 +57,7 @@ function EdFlixViewModel()
         ko.applyBindings(self, document.getElementById("edflix"));
     };
 
+    /*
     self.attachEventHandlers = function()
     {
         console.log("attaching event handlers");
@@ -73,34 +74,46 @@ function EdFlixViewModel()
             updateVideoButton.addEventListener("click", self.updateVideo);
         }
     };
+    */
 
     self.init = function()
     {
-        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs)
+        {
             var url = tabs[0].url;
 
             // if the video is already added, note that. this will
             // cause the ui to show the update button instead of
             // the add button
-            if (localStorage.getItem(url))
+            var video = JSON.parse(localStorage.getItem(url));
+
+            if (video)
             {
+                self.url(video.url);
+                self.title(video.title);
+                self.grade(video.grade);
+                self.rating(video.rating);
+                self.intuitive(video.intuitive);
+
                 self.videoAdded(true);
-
-                return;
             }
+            else
+            {
+                self.url(tabs[0].url);
+                self.title(tabs[0].title);
+                self.grade("K");
+                self.grade(5);
+                self.intuitive(5);
 
-            self.url(tabs[0].url);
-            self.title(tabs[0].title);
-            self.grade("K");
-            self.rating(5);
-            self.intuitive(5);
+                self.videoAdded(false);
+            }
         });
 
         // attach the click event handlers to the buttons before binding the
         // elements to this view model because once the binding code runs,
         // the update button will be removed from the dom and will not get
         // its event handler
-        self.attachEventHandlers();
+        //self.attachEventHandlers();
         self.applyBindings();
     };
 
