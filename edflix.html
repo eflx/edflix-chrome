@@ -46,33 +46,29 @@
                     <!-- Text input-->
                     <div class="form-group">
                         <div class="col-xs-3">
-                            <label class="control-label" for="relevance">Relevance</label>
+                            <label class="control-label" for="rating">Rating</label>
                         </div>
 
                         <div class="col-xs-5">
-                            <input id="relevance" name="relevance" placeholder="Relevance" class="form-control input-md" data-bind="value: relevance" type="text">
+                            <input id="rating" name="rating" placeholder="rating" class="form-control input-md" data-bind="value: rating" type="text">
                         </div>
                     </div>
 
                     <!-- Text input-->
                     <div class="form-group">
                         <div class="col-xs-3">
-                            <label class="control-label" for="understanding">Understanding</label>
+                            <label class="control-label" for="intuitive">Intuitive</label>
                         </div>
                         <div class="col-xs-5">
-                            <input id="understanding" name="understanding" placeholder="Ease of understanding" class="form-control input-md" data-bind="value: easeOfUnderstanding" type="text">
+                            <input id="intuitive" name="intuitive" placeholder="How intuitive is this video?" class="form-control input-md" data-bind="value: intuitive" type="text">
                         </div>
                     </div>
 
                     <!-- button -->
                     <div class="form-group">
                         <div class="col-xs-2">
-                            <!-- ko if: videoAdded -->
-                            <button id="update-video" class="btn btn-success" data-binding="click: updateVideo">Update</button>
-                            <!-- /ko -->
-                            <!-- ko ifnot: videoAdded -->
-                            <button id="add-video" class="btn btn-primary" data-binding="click: function() {addVideo()}">Add</button>
-                            <!-- /ko -->
+                            <button id="update-video" class="btn btn-success" data-bind="visible: videoAdded()">Update</button>
+                            <button id="add-video" class="btn btn-primary" data-bind="visible: !videoAdded()">Add</button>
                         </div>
                     </div>
                 </fieldset>
