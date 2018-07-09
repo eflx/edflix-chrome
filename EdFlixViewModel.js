@@ -5,13 +5,15 @@ function EdFlixViewModel()
     self.url = ko.observable("");
     self.title = ko.observable("");
 
+    self.grades = ["n/a", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+
     self.rating = ko.observable(0); // 1-5
     self.grade = ko.observable("K"); // K-12
     self.intuitive = ko.observable(5); // 1-5
 
     self.videoAdded = ko.observable(false);
 
-    self.addVideo = function(event)
+    self.addVideo = function()
     {
         console.log("adding video '" + self.title() + "'");
 
@@ -26,6 +28,11 @@ function EdFlixViewModel()
         localStorage.setItem(self.url(), JSON.stringify(video));
 
         self.videoAdded(true);
+    };
+
+    self.onAddVideoClicked = function(event)
+    {
+        self.addVideo();
 
         event.preventDefault();
     };
@@ -46,9 +53,14 @@ function EdFlixViewModel()
         video.intuitive = self.intuitive();
 
         localStorage.setItem(self.url(), JSON.stringify(video));
+    }
+
+    self.onUpdateVideoClicked = function(event)
+    {
+        self.updateVideo();
 
         event.preventDefault();
-    }
+    };
 
     self.applyBindings = function()
     {
@@ -56,25 +68,6 @@ function EdFlixViewModel()
 
         ko.applyBindings(self, document.getElementById("edflix"));
     };
-
-    /*
-    self.attachEventHandlers = function()
-    {
-        console.log("attaching event handlers");
-
-        var addVideoButton = document.getElementById("add-video");
-        if (addVideoButton)
-        {
-            addVideoButton.addEventListener("click", self.addVideo);
-        }
-
-        var updateVideoButton = document.getElementById("update-video");
-        if (updateVideoButton)
-        {
-            updateVideoButton.addEventListener("click", self.updateVideo);
-        }
-    };
-    */
 
     self.init = function()
     {
@@ -84,7 +77,8 @@ function EdFlixViewModel()
 
             // if the video is already added, note that. this will
             // cause the ui to show the update button instead of
-            // the add button
+            // the add button. if not, then add the video, so the
+            // user does not have to click again
             var video = JSON.parse(localStorage.getItem(url));
 
             if (video)
@@ -102,18 +96,13 @@ function EdFlixViewModel()
                 self.url(tabs[0].url);
                 self.title(tabs[0].title);
                 self.grade("K");
-                self.grade(5);
+                self.rating(5);
                 self.intuitive(5);
 
-                self.videoAdded(false);
+                self.addVideo();
             }
         });
 
-        // attach the click event handlers to the buttons before binding the
-        // elements to this view model because once the binding code runs,
-        // the update button will be removed from the dom and will not get
-        // its event handler
-        //self.attachEventHandlers();
         self.applyBindings();
     };
 

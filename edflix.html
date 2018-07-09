@@ -4,6 +4,7 @@
     <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 
     <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
     <link rel="stylesheet" href="css/edflix.css" />
 
     <script src="js/jquery-min.js"></script>
@@ -16,6 +17,7 @@
 <body>
     <div id="edflix" class="panel panel-primary">
         <div class="panel-heading"><span data-bind="text: title"></span></div>
+        <div class="text-muted"><i class="fa fa-check-square-o"></i>Added to EdFlix</div>
         <div class="panel-body">
             <form class="form-horizontal">
                 <fieldset>
@@ -25,33 +27,13 @@
                             <label class="control-label" for="grade">Grade</label>
                         </div>
                         <div class="col-xs-3">
-                            <select id="selectbasic" name="grade" class="form-control">
-                                <option value="0">K</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                            </select>
+                            <select id="grade" name="grade" class="form-control" data-bind="options: grades, value: grade"></select>
                         </div>
                     </div>
 
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <div class="col-xs-3">
-                            <label class="control-label" for="rating">Rating</label>
-                        </div>
-
-                        <div class="col-xs-5">
-                            <input id="rating" name="rating" placeholder="rating" class="form-control input-md" data-bind="value: rating" type="text">
-                        </div>
+                    <div class="input-group margin-bottom-sm col-xs-3">
+                      <span class="input-group-addon"><i class="fa fa-graduation-cap fa-fw"></i></span>
+                      <select id="grade" name="grade" data-bind="options: grades, value: grade"></select>
                     </div>
 
                     <!-- Text input-->
@@ -64,11 +46,18 @@
                         </div>
                     </div>
 
+                    <div class="input-group margin-bottom-sm col-xs-3">
+                      <span class="input-group-addon"><i class="fa fa-star-o fa-fw"></i></span>
+                      <input class="form-control" type="text" placeholder="Rating" data-bind="value: rating">
+                    </div>
+
                     <!-- button -->
                     <div class="form-group">
-                        <div class="col-xs-2">
-                            <button id="update-video" class="btn btn-success" data-bind="visible: videoAdded()">Update</button>
-                            <button id="add-video" class="btn btn-primary" data-bind="visible: !videoAdded()">Add</button>
+                        <div class="col-xs-12">
+                            <button id="update-video" class="btn btn-sm btn-success" data-bind="visible: videoAdded()"><i class="fa fa-check fa-lg"></i></button>
+                            <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-trash-o"></i></button>
+                            <button id="share-video" class="btn btn-sm btn-default" data-bind="visible: videoAdded()"><i class="fa fa-share-alt"></i></button>
+                            <button id="add-video" class="btn btn-sm btn-primary" data-bind="visible: !videoAdded()">Add</button>
                         </div>
                     </div>
                 </fieldset>

@@ -2,6 +2,7 @@ body
 {
     width: 500px;
     font-family: "Roboto";
+    margin: 0px;
 }
 
 #form-container
@@ -12,5 +13,16 @@ body
 
 #edflix
 {
-    margin: 0 4px 0 4px;
+    margin: 0;
+}
+
+#edflix .panel
+{
+    border: none;
+}
+
+#edflix .panel-heading
+{
+    margin-left: -1px;
+    margin-right: -1px;
 }
