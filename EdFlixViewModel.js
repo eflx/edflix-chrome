@@ -7,9 +7,10 @@ function EdFlixViewModel()
 
     self.grades = ["n/a", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
-    self.rating = ko.observable(0); // 1-5
+    self.rating = ko.observable(0); // 0-10
     self.grade = ko.observable("K"); // K-12
-    self.intuitive = ko.observable(5); // 1-5
+    self.tags = ko.observable("");
+    self.comments = ko.observable("");
 
     self.videoAdded = ko.observable(false);
 
@@ -22,7 +23,8 @@ function EdFlixViewModel()
             title: self.title(),
             grade: self.grade(),
             rating: self.rating(),
-            intuitive: self.intuitive()
+            tags: self.tags(),
+            comments: self.comments()
         };
 
         localStorage.setItem(self.url(), JSON.stringify(video));
@@ -50,7 +52,8 @@ function EdFlixViewModel()
 
         video.grade = self.grade();
         video.rating = self.rating();
-        video.intuitive = self.intuitive();
+        video.tags = self.tags();
+        video.comments = self.comments();
 
         localStorage.setItem(self.url(), JSON.stringify(video));
     }
@@ -62,10 +65,24 @@ function EdFlixViewModel()
         event.preventDefault();
     };
 
+    self.deleteVideo = function()
+    {
+        console.log("deleting video '" + self.title() + "'");
+
+        localStorage.removeItem(self.url());
+
+        self.videoAdded(false);
+    }
+
+    self.onDeleteVideoClicked = function(event)
+    {
+        self.deleteVideo();
+
+        event.preventDefault();
+    };
+
     self.applyBindings = function()
     {
-        console.log("applying bindings");
-
         ko.applyBindings(self, document.getElementById("edflix"));
     };
 
@@ -87,7 +104,8 @@ function EdFlixViewModel()
                 self.title(video.title);
                 self.grade(video.grade);
                 self.rating(video.rating);
-                self.intuitive(video.intuitive);
+                self.tags(video.tags);
+                self.comments(video.comments);
 
                 self.videoAdded(true);
             }
@@ -96,8 +114,9 @@ function EdFlixViewModel()
                 self.url(tabs[0].url);
                 self.title(tabs[0].title);
                 self.grade("K");
-                self.rating(5);
-                self.intuitive(5);
+                self.rating(0);
+                self.tags("");
+                self.comments("");
 
                 self.addVideo();
             }
