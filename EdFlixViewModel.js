@@ -12,6 +12,8 @@ function EdFlixViewModel()
     self.tags = ko.observable("");
     self.comments = ko.observable("");
 
+    self.videos = ko.observableArray([]);
+
     self.videoAdded = ko.observable(false);
 
     self.addVideo = function()
@@ -28,6 +30,8 @@ function EdFlixViewModel()
         };
 
         localStorage.setItem(self.url(), JSON.stringify(video));
+
+        self.videos.push(video);
 
         self.videoAdded(true);
     };
@@ -71,6 +75,14 @@ function EdFlixViewModel()
 
         localStorage.removeItem(self.url());
 
+        // remove the video in the list with the same URL as in the
+        // UI
+        var remainingVideos = _.reject(self.videos(), function(video) {
+            return video.url == self.url()
+        });
+
+        self.videos(remainingVideos);
+
         self.videoAdded(false);
     }
 
@@ -86,7 +98,17 @@ function EdFlixViewModel()
         ko.applyBindings(self, document.getElementById("edflix"));
     };
 
-    self.init = function()
+    self.initAllVideos = function()
+    {
+        for (var i = 0; i < localStorage.length; i++)
+        {
+            var video = JSON.parse(localStorage.getItem(localStorage.key(i)));
+
+            self.videos.push(video);
+        }
+    };
+
+    self.initCurrentVideo = function()
     {
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs)
         {
@@ -118,9 +140,15 @@ function EdFlixViewModel()
                 self.tags("");
                 self.comments("");
 
-                self.addVideo();
+                self.videoAdded(false);
             }
         });
+    };
+
+    self.init = function()
+    {
+        self.initAllVideos();
+        self.initCurrentVideo();
 
         self.applyBindings();
     };

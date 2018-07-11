@@ -49,3 +49,11 @@ div.alert
     padding: 4px;
     margin-bottom: 0px;
 }
+
+.ellipsis
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}

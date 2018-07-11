@@ -19,19 +19,18 @@
 </head>
 <body>
     <div id="edflix" class="panel-group">
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#edflix" href="#current-bookmark">
-                  <span data-bind="text: title"></span>
-                </a>
-              </h4>
+              <p class="panel-title ellipsis">
+                <label class="label label-success" data-bind="visible: videoAdded()"><i class="fa fa-check"></i> EdFlix</label>
+                <a data-toggle="collapse" href="#current-bookmark" data-bind="text: title"></a>
+              </p>
             </div>
-            <div class="alert alert-warning" data-bind="visible: videoAdded()">
+            <!--
+            <div class="alert alert-warning"">
               <label class="text text-muted">Added to EdFlix</label>
-                <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-times"></i> Remove</button>
-                <button id="share-video" class="btn btn-sm btn-default" data-bind="visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
             </div>
+            -->
             <div id="current-bookmark" class="panel-body panel-collapse collapse in">
                 <form class="form-horizontal">
                     <fieldset>
@@ -42,7 +41,7 @@
 
                         <div class="input-group col-xs-6">
                           <span class="input-group-addon"><i class="fa fa-star-o fa-fw"></i></span>
-                          <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="10" data-bind="value: rating">
+                          <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="5" data-bind="value: rating">
                         </div>
 
                         <div class="input-group col-xs-12">
@@ -57,22 +56,26 @@
 
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <button id="update-video" class="btn btn-sm btn-success" data-bind="visible: videoAdded()">Update</button>
-                                <button id="add-video" class="btn btn-sm btn-primary" data-bind="visible: !videoAdded()">Add to EdFlix</button>
+                                <button id="add-video" class="btn btn-sm btn-primary" data-bind="visible: !videoAdded()"> Add to EdFlix</button>
+                                <button id="update-video" class="btn btn-sm btn-default" data-bind="visible: videoAdded()">Update</button>
+                                <button id="share-video" class="btn btn-sm btn-default" data-bind="visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
+                                <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-times"></i> Remove</button>
                             </div>
                         </div>
                     </fieldset>
                 </form>
             </div>
         </div>
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#edflix" href="#all-bookmarks">All bookmarks</a>
-              </h4>
+              <p class="panel-title">
+                <a data-toggle="collapse" href="#my-bookmarks">My bookmarks</a>
+              </p>
             </div>
-            <div id="all-bookmarks" class="panel-body panel-collapse collapse">
-              all bookmarks go here
+            <div id="my-bookmarks" class="panel-body panel-collapse collapse in">
+              <ul data-bind="foreach: videos">
+                <li><span data-bind="text: $data.title"></li>
+              </ul>
             </div>
         </div>
     </div>
