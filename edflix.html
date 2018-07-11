@@ -19,39 +19,47 @@
 </head>
 <body>
     <div id="edflix" class="panel panel-primary">
-        <div class="panel-heading"><span data-bind="text: title"></span></div>
-        <!-- ko if: videoAdded -->
-        <div class="text-muted"><i class="fa fa-check-square-o"></i>Added to EdFlix</div>
-        <!-- /ko -->
+        <div class="panel-heading">
+          <div class="panel-title">
+            <span data-bind="text: title"></span>
+            <button id="add-video" class="btn btn-sm btn-success" data-bind="visible: !videoAdded()"><i class="fa fa-plus fa-lg"></i></button>
+            <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-times fa-lg"></i></button>
+            <button id="share-video" class="btn btn-sm btn-default" data-bind="visible: videoAdded()"><i class="fa fa-share-alt fa-lg"></i></button>
+          </div>
+        </div>
         <div class="panel-body">
+            <!-- ko if: videoAdded -->
+            <div class="text-muted"><i class="fa fa-check-square-o"></i>Added to EdFlix</div>
+            <!-- /ko -->
             <form class="form-horizontal">
                 <fieldset>
+                    <!--
                     <div class="input-group col-xs-3">
                       <span class="input-group-addon"><i class="fa fa-graduation-cap fa-fw"></i></span>
                       <select id="grade" name="grade" class="form-control" data-bind="options: grades, value: grade"></select>
                     </div>
+                    -->
 
-                    <div class="input-group col-xs-6">
+                    <div class="input-group col-xs-4">
                       <span class="input-group-addon"><i class="fa fa-star-o fa-fw"></i></span>
-                      <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="10" data-bind="value: rating">
+                      <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="5" data-bind="value: rating">
                     </div>
 
                     <div class="input-group col-xs-12">
                       <span class="input-group-addon"><i class="fa fa-tags fa-fw"></i></span>
-                      <input class="form-control" placeholder="Type tags here" data-role="tagsinput" data-bind="value: tags"></textarea>
+                      <input id="categories" name="categories" class="form-control" placeholder="Type categories here" data-role="tagsinput" data-bind="value: categories"></textarea>
                     </div>
 
+                    <!--
                     <div class="input-group col-xs-12">
                       <span class="input-group-addon"><i class="fa fa-comment-o fa-fw"></i></span>
                       <textarea class="form-control" placeholder="Your comments" data-bind="value: comments"></textarea>
                     </div>
+                    -->
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <button id="update-video" class="btn btn-sm btn-success" data-bind="visible: videoAdded()"><i class="fa fa-check fa-2x"></i></button>
-                            <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-trash-o fa-2x"></i></button>
-                            <button id="share-video" class="btn btn-sm btn-default" data-bind="visible: videoAdded()"><i class="fa fa-share-alt fa-2x"></i></button>
-                            <button id="add-video" class="btn btn-sm btn-primary" data-bind="visible: !videoAdded()"><i class="fa fa-plus fa-2x"></i></button>
+                            <button id="update-video" class="btn btn-sm btn-success" data-bind="visible: videoAdded()">Update</button>
                         </div>
                     </div>
                 </fieldset>

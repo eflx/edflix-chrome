@@ -7,9 +7,11 @@ function EdFlixViewModel()
 
     self.grades = ["n/a", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
-    self.rating = ko.observable(0); // 0-10
+    self.ratings = ["1", "2", "3", "4", "5"];
+
+    self.rating = ko.observable(0); // 0-5
     self.grade = ko.observable("K"); // K-12
-    self.tags = ko.observable("");
+    self.categories = ko.observable("");
     self.comments = ko.observable("");
 
     self.videoAdded = ko.observable(false);
@@ -23,7 +25,7 @@ function EdFlixViewModel()
             title: self.title(),
             grade: self.grade(),
             rating: self.rating(),
-            tags: self.tags(),
+            categories: self.categories(),
             comments: self.comments()
         };
 
@@ -52,7 +54,7 @@ function EdFlixViewModel()
 
         video.grade = self.grade();
         video.rating = self.rating();
-        video.tags = self.tags();
+        video.categories = self.categories();
         video.comments = self.comments();
 
         localStorage.setItem(self.url(), JSON.stringify(video));
@@ -104,7 +106,7 @@ function EdFlixViewModel()
                 self.title(video.title);
                 self.grade(video.grade);
                 self.rating(video.rating);
-                self.tags(video.tags);
+                self.categories(video.categories);
                 self.comments(video.comments);
 
                 self.videoAdded(true);
@@ -115,7 +117,7 @@ function EdFlixViewModel()
                 self.title(tabs[0].title);
                 self.grade("K");
                 self.rating(0);
-                self.tags("");
+                self.categories("");
                 self.comments("");
 
                 self.addVideo();
