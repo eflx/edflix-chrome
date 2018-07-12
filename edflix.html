@@ -20,6 +20,7 @@
 <body>
     <div id="edflix" class="panel panel-primary">
       <div class="panel-heading">
+        My EdFlix
       </div>
       <div class="panel-body">
         <div class="input-group">
@@ -28,13 +29,18 @@
             <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
           </span>
         </div>
-        <div id="bookmark-list">
+        <div id="my-bookmarks">
+          <table class="table table-condensed table-border" data-bind="foreach: grid">
+              <tr data-bind="foreach: $data">
+                  <td data-bind="text: title"></td>
+              </tr>
+          </table>
         </div>
       </div>
       <div class="panel-footer alert alert-warning">
         Add <span data-bind="text: title"></span> to EdFlix?
         <button id="add-video-yes-button" class="btn btn-success btn-xs"><i class="fa fa-check"></i> Yes</button>
-        <button id="add-video-no-button" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> No</button>
+        <button id="add-video-no-button" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> No</button></p>
       </div>
     </div>
     <script src="edflix.js"></script>  
