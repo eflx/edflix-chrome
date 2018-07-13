@@ -23,8 +23,7 @@
             <div class="panel-heading">
               <p class="panel-title ellipsis">
                 <label class="label label-success" data-bind="visible: videoAdded()"><i class="fa fa-check"></i> EdFlix</label>
-                <span data-bind="text: title"></span>
-                <!--<a data-toggle="collapse" href="#current-bookmark" data-bind="text: title"></a>-->
+                <a data-toggle="collapse" href="#current-bookmark" data-bind="text: title"></a>
               </p>
             </div>
             <div id="current-bookmark" class="panel-body panel-collapse collapse in">
@@ -42,22 +41,20 @@
 
                         <div class="input-group col-xs-12">
                           <span class="input-group-addon"><i class="fa fa-list fa-fw"></i></span>
-                          <input class="form-control" placeholder="Type categories here" data-role="tagsinput" data-bind="value: categories"></textarea>
+                          <input class="form-control" class="col-xs-8" placeholder="Type categories here" data-role="tagsinput" data-bind="value: categories"></textarea>
                         </div>
 
-                        <!--
                         <div class="input-group col-xs-12">
                           <span class="input-group-addon"><i class="fa fa-comment-o fa-fw"></i></span>
                           <textarea class="form-control" placeholder="Your comments" data-bind="value: comments"></textarea>
                         </div>
-                        -->
 
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <button id="add-video" class="btn btn-sm btn-primary" data-bind="visible: !videoAdded()"> Add to EdFlix</button>
                                 <button id="update-video" class="btn btn-sm btn-primary" data-bind="visible: videoAdded()">Update</button>
-                                <button id="share-video" class="btn btn-sm btn-primary" data-bind="visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
                                 <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-times"></i> Remove</button>
+                                <button id="share-video" class="btn btn-sm btn-primary" data-bind="visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
                             </div>
                         </div>
                     </fieldset>
@@ -67,15 +64,22 @@
         <div class="panel panel-default">
             <div class="panel-heading">
               <p class="panel-title">
-                <!--<a data-toggle="collapse" href="#my-bookmarks">My bookmarks</a>-->
-                My bookmarks
+                <a data-toggle="collapse" href="#my-bookmarks">My bookmarks</a>
               </p>
             </div>
             <div id="my-bookmarks" class="panel-body panel-collapse collapse in">
-              <ul data-bind="foreach: videos">
-                <li><span data-bind="text: $data.title"></li>
-              </ul>
-            </div>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
+                </span>
+              </div>
+              <table class="table table-condensed table-border" data-bind="foreach: grid">
+                <tr data-bind="foreach: $data">
+                    <td data-bind="text: title"></td>
+                </tr>
+            </table>
+          </div>
         </div>
     </div>
     <script src="edflix.js"></script>

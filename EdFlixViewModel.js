@@ -16,6 +16,10 @@ function EdFlixViewModel()
 
     self.videoAdded = ko.observable(false);
 
+    self.grid = ko.computed(function() {
+        return _.chunk(self.videos(), 3);
+    });
+
     self.addVideo = function()
     {
         console.log("adding video '" + self.title() + "'");

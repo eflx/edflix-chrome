@@ -36,6 +36,7 @@ div.bootstrap-tagsinput
 {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+    width: 100%;
 }
 
 div.rating-input
@@ -56,4 +57,22 @@ div.alert
     overflow: hidden;
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
+}
+
+
+#my-bookmarks table
+{
+  border-collapse: separate;
+  border-spacing: 4px;
+}
+
+#my-bookmarks td
+{
+  width: 33%;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+
+  border: 1px solid silver;
 }
