@@ -16,6 +16,8 @@ function EdFlixViewModel()
 
     self.videoAdded = ko.observable(false);
 
+    self.view = ko.observable("current");
+
     self.grid = ko.computed(function() {
         return _.chunk(self.videos(), 3);
     });
@@ -38,6 +40,16 @@ function EdFlixViewModel()
         self.videos.push(video);
 
         self.videoAdded(true);
+    };
+
+    self.showCurrentVideo = function(event)
+    {
+        self.view("current");
+    };
+
+    self.showAllVideos = function(event)
+    {
+        self.view("all");
     };
 
     self.onAddVideoClicked = function(event)
@@ -114,6 +126,7 @@ function EdFlixViewModel()
 
     self.initCurrentVideo = function()
     {
+        /*
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs)
         {
             var url = tabs[0].url;
@@ -147,10 +160,13 @@ function EdFlixViewModel()
                 self.videoAdded(false);
             }
         });
+        */
     };
 
     self.init = function()
     {
+        self.view("current");
+
         self.initAllVideos();
         self.initCurrentVideo();
 

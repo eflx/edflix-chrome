@@ -8,3 +8,9 @@ updateVideoButton.addEventListener("click", function(event) { edflixVm.onUpdateV
 
 var deleteVideoButton = document.getElementById("delete-video");
 deleteVideoButton.addEventListener("click", function(event) { edflixVm.onDeleteVideoClicked(event) });
+
+var currentVideoLink = document.getElementById("current-video-link");
+currentVideoLink.addEventListener("click", function(event) { edflixVm.showCurrentVideo(event) });
+
+var allVideosLink = document.getElementById("all-videos-link");
+allVideosLink.addEventListener("click", function(event) { edflixVm.showAllVideos(event) });
