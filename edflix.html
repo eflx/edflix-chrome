@@ -22,17 +22,16 @@
 <body>
     <div id="edflix">
       <div>
-        <ul class="nav nav-pills">
-          <li data-bind="css: { active: view() == 'current' }"><a id="current-video-link" href="#">Current video</a></li>
-          <li data-bind="css: { active: view() == 'all' }"><a id="all-videos-link" href="#">All videos</a></li>
+        <ul class="nav nav-tabs">
+          <li class="ellipsis" data-bind="css: { active: view() == 'current' }"><a id="current-video-link" href="#">This video</a></li>
+          <li class="ellipsis" data-bind="css: { active: view() == 'all' }"><a id="all-videos-link" href="#">All videos</a></li>
         </ul>
       </div>
       <div id="current-video" class="panel panel-default" data-bind="with: videoViewModel, visible: view() == 'current'">
         <div class="panel-heading">
           <p class="panel-title ellipsis">
             <label class="label label-success" data-bind="visible: videoAdded()"><i class="fa fa-check"></i> EdFlix</label>
-            <label class="label label-default" data-bind="text: title"></label>
-            <!--<span data-bind="text: title"></span>-->
+            <span data-bind="text: title"></span>
           </p>
         </div>
         <div class="panel-body">
@@ -50,7 +49,7 @@
 
                   <div class="input-group col-xs-12">
                     <span class="input-group-addon"><i class="fa fa-list fa-fw"></i></span>
-                    <input class="form-control" class="col-xs-8" placeholder="Type categories here" data-role="tagsinput" data-bind="value: categories"></textarea>
+                    <input class="form-control" class="col-xs-8" placeholder="Your categories" data-role="tagsinput" data-bind="value: categories"></textarea>
                   </div>
 
                   <div class="input-group col-xs-12">
@@ -71,9 +70,6 @@
         </div>
       </div>
       <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel, visible: view() == 'all'">
-        <div class="panel-heading">
-          <p class="panel-title ellipsis">All videos</p>
-        </div>
         <div class="panel-body">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search">
@@ -83,7 +79,7 @@
           </div>
           <table class="table table-condensed table-border" data-bind="foreach: grid">
             <tr data-bind="foreach: $data">
-                <td data-bind="text: title"></td>
+              <td data-bind="text: title"></td>
             </tr>
         </table>
         </div>
