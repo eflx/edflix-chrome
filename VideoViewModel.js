@@ -1,6 +1,6 @@
 // Manages a single bookmark -- a video, article, link, etc. -- that
 // a user has bookmarked
-function VideoViewModel()
+function VideoViewModel(videos)
 {
     var self = this;
 
@@ -18,7 +18,7 @@ function VideoViewModel()
     self.rating = ko.observable(0); // 0-10
     self.comments = ko.observable("");
 
-    self.videos = ko.observableArray([]);
+    self.videos = videos;
 
     self.videoAdded = ko.observable(false);
 

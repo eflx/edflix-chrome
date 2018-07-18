@@ -49,19 +49,7 @@ div.alert
     -o-text-overflow: ellipsis;
 }
 
-#my-bookmarks table
+#all-videos td
 {
-  border-collapse: separate;
-  border-spacing: 4px;
-}
-
-#my-bookmarks td
-{
-  width: 33%;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-
-  border: 1px solid silver;
+  border: none;
 }
