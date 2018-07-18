@@ -1,6 +1,6 @@
 // Manages all bookmarks -- the set of all videos, articles, links, etc. --
 // that a user has bookmarked.
-function ContentManagerViewModel()
+function VideosViewModel()
 {
     var self = this;
 
@@ -17,6 +17,10 @@ function ContentManagerViewModel()
     self.videos = ko.observableArray([]);
 
     self.videoAdded = ko.observable(false);
+
+    self.grid = ko.computed(function() {
+        return _.chunk(self.videos(), 3);
+    });
 
     self.addVideo = function()
     {
@@ -149,10 +153,12 @@ function ContentManagerViewModel()
 
     self.init = function()
     {
+        /*
         self.initAllVideos();
         self.initCurrentVideo();
 
         self.applyBindings();
+        */
     };
 
     self.init();

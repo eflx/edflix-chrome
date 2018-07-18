@@ -1,6 +1,6 @@
 // Manages a single bookmark -- a video, article, link, etc. -- that
 // a user has bookmarked
-function BookmarkViewModel()
+function VideoViewModel()
 {
     var self = this;
 
@@ -95,22 +95,7 @@ function BookmarkViewModel()
         event.preventDefault();
     };
 
-    self.applyBindings = function()
-    {
-        ko.applyBindings(self, document.getElementById("edflix"));
-    };
-
-    self.initAllVideos = function()
-    {
-        for (var i = 0; i < localStorage.length; i++)
-        {
-            var video = JSON.parse(localStorage.getItem(localStorage.key(i)));
-
-            self.videos.push(video);
-        }
-    };
-
-    self.initCurrentVideo = function()
+    self.initialize = function()
     {
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs)
         {
@@ -147,13 +132,5 @@ function BookmarkViewModel()
         });
     };
 
-    self.init = function()
-    {
-        self.initAllVideos();
-        self.initCurrentVideo();
-
-        self.applyBindings();
-    };
-
-    self.init();
+    self.initialize();
 }

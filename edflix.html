@@ -13,8 +13,10 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/underscore-min.js"></script>
     <script src="js/knockout-min.js"></script>
-    <script src="js/bootstrap-tagsinput.js"></script>
+    <script src="js/knockout-3.4.2.js"></script>
     <script src="js/bootstrap-rating-input.min.js"></script>
+    <script src="VideoViewModel.js"></script>
+    <script src="VideosViewModel.js"></script>
     <script src="EdFlixViewModel.js"></script>
 </head>
 <body>
@@ -25,12 +27,12 @@
           <li data-bind="css: { active: view() == 'all' }"><a id="all-videos-link" href="#">All videos</a></li>
         </ul>
       </div>
-      <div id="current-video" class="panel panel-default" data-bind="if: view() == 'current'">
+      <div id="current-video" class="panel panel-default" data-bind="with: videoViewModel, visible: view() == 'current'">
         <div class="panel-heading">
           <p class="panel-title ellipsis">
             <label class="label label-success" data-bind="visible: videoAdded()"><i class="fa fa-check"></i> EdFlix</label>
+            <label class="label label-default" data-bind="text: title"></label>
             <!--<span data-bind="text: title"></span>-->
-            <span>Current video</span>
           </p>
         </div>
         <div class="panel-body">
@@ -68,7 +70,7 @@
           </form>
         </div>
       </div>
-      <div id="all-videos" class="panel panel-default" data-bind="if: view() == 'all'">
+      <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel, visible: view() == 'all'">
         <div class="panel-heading">
           <p class="panel-title ellipsis">All videos</p>
         </div>
