@@ -13,7 +13,6 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/underscore-min.js"></script>
     <script src="js/knockout-min.js"></script>
-    <script src="js/knockout-3.4.2.js"></script>
     <script src="js/bootstrap-rating-input.min.js"></script>
     <script src="VideoViewModel.js"></script>
     <script src="VideosViewModel.js"></script>
@@ -43,13 +42,18 @@
                   </div>
 
                   <div class="input-group col-xs-6">
-                    <span class="input-group-addon"><i class="fa fa-star-o fa-fw"></i></span>
-                    <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="5" data-bind="value: rating">
+                    <span class="input-group-addon"><i class="fa fa-book fa-fw"></i></span>
+                    <select id="subject" name="subject" class="form-control" data-bind="options: subjects, value: subject"></select>
                   </div>
 
                   <div class="input-group col-xs-12">
                     <span class="input-group-addon"><i class="fa fa-list fa-fw"></i></span>
                     <input class="form-control" class="col-xs-8" placeholder="Your categories" data-role="tagsinput" data-bind="value: categories"></textarea>
+                  </div>
+
+                  <div class="input-group col-xs-6">
+                    <span class="input-group-addon"><i class="fa fa-star-o fa-fw"></i></span>
+                    <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="5" data-bind="value: rating">
                   </div>
 
                   <div class="input-group col-xs-12">

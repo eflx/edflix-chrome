@@ -7,11 +7,15 @@ function VideoViewModel()
     self.url = ko.observable("");
     self.title = ko.observable("");
 
-    self.grades = ["n/a", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+    self.grades = ["", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
-    self.rating = ko.observable(0); // 0-10
-    self.grade = ko.observable("K"); // K-12
+    // subjects will change based on grade, but for now, keep them static
+    self.subjects = ["", "ELA", "Science", "Social Studies", "Math", "Art", "Music", "Robotics", "Foreign Language"];
+
+    self.grade = ko.observable(""); // K-12
+    self.subject = ko.observable("");
     self.categories = ko.observable("");
+    self.rating = ko.observable(0); // 0-10
     self.comments = ko.observable("");
 
     self.videos = ko.observableArray([]);
@@ -26,8 +30,9 @@ function VideoViewModel()
             url: self.url(),
             title: self.title(),
             grade: self.grade(),
-            rating: self.rating(),
+            subject: self.subject(),
             categories: self.categories(),
+            rating: self.rating(),
             comments: self.comments()
         };
 
@@ -57,8 +62,9 @@ function VideoViewModel()
         }
 
         video.grade = self.grade();
-        video.rating = self.rating();
+        video.subject = self.subject();
         video.categories = self.categories();
+        video.rating = self.rating();
         video.comments = self.comments();
 
         localStorage.setItem(self.url(), JSON.stringify(video));
@@ -112,8 +118,9 @@ function VideoViewModel()
                 self.url(video.url);
                 self.title(video.title);
                 self.grade(video.grade);
-                self.rating(video.rating);
+                self.subject(video.subject);
                 self.categories(video.categories);
+                self.rating(video.rating);
                 self.comments(video.comments);
 
                 self.videoAdded(true);
@@ -122,9 +129,10 @@ function VideoViewModel()
             {
                 self.url(tabs[0].url);
                 self.title(tabs[0].title);
-                self.grade("K");
-                self.rating(0);
+                self.grade("");
+                self.subject("");
                 self.categories("");
+                self.rating(0);
                 self.comments("");
 
                 self.videoAdded(false);
