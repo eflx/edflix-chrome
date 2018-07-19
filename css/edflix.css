@@ -53,3 +53,9 @@ div.alert
 {
   border: none;
 }
+
+#video-list-view
+{
+  overflow-y: scroll;
+  height: 420px;
+}

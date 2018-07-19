@@ -81,15 +81,17 @@
               <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
             </span>
           </div>
-          <table class="table table-hover">
-            <tbody>
-              <!-- ko foreach: videos -->
-              <tr>
-                <td><a data-bind="attr: {href: url}" target="_blank"><span data-bind="text: title"></span></a></td>
-              </tr>
-              <!-- /ko -->
-            </tbody>
-        </table>
+          <div id="video-list-view">
+            <table class="table table-hover">
+              <tbody>
+                <!-- ko foreach: videos -->
+                <tr>
+                  <td><a data-bind="attr: {href: url}" target="_blank"><span data-bind="text: title"></span></a></td>
+                </tr>
+                <!-- /ko -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
