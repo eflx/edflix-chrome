@@ -76,7 +76,7 @@
       <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel, visible: view() == 'all'">
         <div class="panel-body">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search">
+            <input id="search" type="text" class="form-control" placeholder="Search" data-bind="textInput: search">
             <span class="input-group-btn">
               <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
             </span>
@@ -84,7 +84,7 @@
           <div id="video-list-view">
             <table class="table table-hover">
               <tbody>
-                <!-- ko foreach: videos -->
+                <!-- ko foreach: filteredVideos -->
                 <tr>
                   <td><a data-bind="attr: {href: url}" target="_blank"><span data-bind="text: title"></span></a></td>
                 </tr>

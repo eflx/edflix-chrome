@@ -14,3 +14,6 @@ currentVideoLink.addEventListener("click", function(event) { edflixVm.showCurren
 
 var allVideosLink = document.getElementById("all-videos-link");
 allVideosLink.addEventListener("click", function(event) { edflixVm.showAllVideos(event) });
+
+var searchInput = document.getElementById("search");
+searchInput.addEventListener("change", function(event) { edflixVm.videosViewModel.onSearchChanged(event) });
