@@ -30,7 +30,7 @@ function EdFlixViewModel()
 
     self.initialize = function()
     {
-        self.showCurrentVideo();
+        self.showAllVideos();
 
         self.applyBindings();
     };

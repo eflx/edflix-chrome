@@ -59,3 +59,15 @@ div.alert
   overflow-y: scroll;
   height: 420px;
 }
+
+.video-info
+{
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin: 4px;
+}
+
+.video-info:hover
+{
+  background-color: #eee;
+}

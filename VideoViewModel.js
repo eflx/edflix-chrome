@@ -10,7 +10,7 @@ function VideoViewModel(videos)
     self.grades = ["", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
     // subjects will change based on grade, but for now, keep them static
-    self.subjects = ["", "ELA", "Science", "Social Studies", "Math", "Art", "Music", "Robotics", "Foreign Language"];
+    self.subjects = ["", "ELA", "Science", "Social Studies", "Math", "Art", "Music", "Robotics", "Foreign Language", "PE"];
 
     self.grade = ko.observable(""); // K-12
     self.subject = ko.observable("");

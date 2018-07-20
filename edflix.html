@@ -82,15 +82,22 @@
             </span>
           </div>
           <div id="video-list-view">
-            <table class="table table-hover">
-              <tbody>
-                <!-- ko foreach: videos -->
-                <tr>
-                  <td><a data-bind="attr: {href: url}" target="_blank"><span data-bind="text: title"></span></a></td>
-                </tr>
-                <!-- /ko -->
-              </tbody>
-            </table>
+            <!-- ko foreach: videos -->
+            <div class="video-info">
+              <div class="ellipsis">
+                <a data-bind="attr: {href: url}" target="_blank"><span data-bind="text: title"></span></a>
+              </div>
+              <div class="video-comments ellipsis">
+                <!--<small><span data-bind="text: comments"></span></small>-->
+              </div>
+              <div class="video-attributes ellipsis">
+                <label class="label label-primary">Grade <span data-bind="text: grade"></span></label>
+                <label class="label label-warning"><span data-bind="text: subject"></span></label>
+                <!--<small><span data-bind="text: categories"></span></small>-->
+                <label class="label label-success"><span data-bind="text: rating"></span> <i class="fa fa-star"></i></label>
+              </div>
+            </div>
+            <!-- /ko -->
           </div>
         </div>
       </div>
