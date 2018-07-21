@@ -11,28 +11,24 @@ function VideosViewModel(videos)
 
     self.search = ko.observable("");
 
-    self.filterVideos = function()
+    self.filterVideos = function(searchTerm)
     {
-        console.log("in filterVideos");
         var allVideos = self.videos();
 
-        console.log("search is " + self.search());
+        self.filteredVideos.removeAll();
+
         for (var i = 0; i < allVideos.length; i++)
         {
             var video = allVideos[i];
 
-            if (video.title.indexOf(self.search()) != -1)
+            var videoTitle = video.title.toLowerCase();
+            var searchTerm = searchTerm.toLowerCase();
+
+            if (videoTitle.indexOf(searchTerm) != -1)
             {
-                console.log("found " + video.title);
                 self.filteredVideos.push(video);
             }
         }
-    };
-
-    self.onSearchChanged = function(event)
-    {
-        console.log("in onsearchchanged");
-        self.filterVideos();
     };
 
     self.initialize = function()
@@ -43,6 +39,14 @@ function VideosViewModel(videos)
 
             self.videos.push(video);
         }
+
+        // set the filter function to be called when the search
+        // term changes...
+        self.search.subscribe(self.filterVideos);
+
+        // ...and start it with filtering on nothing, so all
+        // videos show
+        self.filterVideos("");
     };
 
     self.initialize();
