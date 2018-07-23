@@ -11,6 +11,11 @@ function VideosViewModel(videos)
 
     self.search = ko.observable("");
 
+    // filter criteria
+    self.grades = ko.observableArray([]);
+    self.subjects = ko.observableArray([]);
+    self.ratings = ko.observableArray([]);
+
     self.filterVideos = function(searchTerm)
     {
         var allVideos = self.videos();

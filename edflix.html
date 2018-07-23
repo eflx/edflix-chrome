@@ -76,11 +76,127 @@
       <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel, visible: view() == 'all'">
         <div class="panel-body">
           <div class="input-group">
-            <input id="search" type="text" class="form-control" placeholder="Search" data-bind="textInput: search, valueUpdate: 'onkeyup'">
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
-            </span>
+            <!-- the filter icon and the filter menu -->
+            <div class="input-group-addon">
+              <i class="fa fa-filter fa-fw dropdown-toggle" data-toggle="dropdown" title="Filter"></i>
+              <div id="filter-criteria" class="dropdown-menu">
+                <div id="grade-filter">
+                  <p><i class="fa fa-graduation-cap fa-fw"></i><b>Grade</b></p>
+                  <div><input type="checkbox" value="K" data-bind="checked: grades"></input> K</div>
+                  <div><input type="checkbox" value="1" data-bind="checked: grades"></input> 1</div>
+                  <div><input type="checkbox" value="2" data-bind="checked: grades"></input> 2</div>
+                  <div><input type="checkbox" value="3" data-bind="checked: grades"></input> 3</div>
+                  <div><input type="checkbox" value="4" data-bind="checked: grades"></input> 4</div>
+                  <div><input type="checkbox" value="5" data-bind="checked: grades"></input> 5</div>
+                  <div><input type="checkbox" value="6" data-bind="checked: grades"></input> 6</div>
+                  <div><input type="checkbox" value="7" data-bind="checked: grades"></input> 7</div>
+                  <div><input type="checkbox" value="8" data-bind="checked: grades"></input> 8</div>
+                  <div><input type="checkbox" value="9" data-bind="checked: grades"></input> 9</div>
+                  <div><input type="checkbox" value="10" data-bind="checked: grades"></input> 10</div>
+                  <div><input type="checkbox" value="11" data-bind="checked: grades"></input> 11</div>
+                  <div><input type="checkbox" value="12" data-bind="checked: grades"></input> 12</div>
+                </div>
+                <p></p>
+                <div id="rating-filter">
+                  <p><i class="fa fa-star-o fa-fw"></i><b>Rating</b></p>
+                  <div><input type="checkbox" value="5" data-bind="checked: ratings"></input> 5 <i class="fa fa-star fa-fw"></i></div>
+                  <div><input type="checkbox" value="4" data-bind="checked: ratings"></input> 4 <i class="fa fa-star fa-fw"></i></div>
+                  <div><input type="checkbox" value="3" data-bind="checked: ratings"></input> 3 <i class="fa fa-star fa-fw"></i></div>
+                  <div><input type="checkbox" value="2" data-bind="checked: ratings"></input> 2 <i class="fa fa-star fa-fw"></i></div>
+                  <div><input type="checkbox" value="1" data-bind="checked: ratings"></input> 1 <i class="fa fa-star fa-fw"></i></div>
+                  <div><input type="checkbox" value="0" data-bind="checked: ratings"></input> 0 <i class="fa fa-star fa-fw"></i></div>
+                </div>
+                <p></p>
+                <div id="subject-filter">
+                  <p><i class="fa fa-book fa-fw"></i><b>Subject</b></p>
+                  <div><input type="checkbox" value="ELA" data-bind="checked: subjects"></input> ELA </div>
+                  <div><input type="checkbox" value="Science" data-bind="checked: subjects"></input> Science</div>
+                  <div><input type="checkbox" value="Social Studies" data-bind="checked: subjects"></input> Social Studies</div>
+                  <div><input type="checkbox" value="Math" data-bind="checked: subjects"></input> Math</div>
+                  <div><input type="checkbox" value="Art" data-bind="checked: subjects"></input> Art</div>
+                  <div><input type="checkbox" value="Music" data-bind="checked: subjects"></input> Music</div>
+                  <div><input type="checkbox" value="Robotics" data-bind="checked: subjects"></input> Robotics</div>
+                  <div><input type="checkbox" value="Foreign Language" data-bind="checked: subjects"></input> Foreign Language</i></div>
+                  <div><input type="checkbox" value="PE" data-bind="checked: subjects"></input> PE</div>
+                </div>
+              </div>
+              <!--
+              <div class="dropdown-menu">
+                <ul>
+                  <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+                  <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                  <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#"><i class="fa fa-unlock"></i> Make admin</a></li>
+                </ul>
+              </div>
+              -->
+            </div>
+            <!-- the search input box -->
+            <input id="search" type="text" class="form-control" placeholder="Search" data-bind="textInput: search, valueUpdate: 'onkeyup'"></input>
           </div>
+          <!--
+          <div class="btn-group input-group-btn">
+            <a class="btn btn-primary" href="#"><i class="fa fa-user fa-fw"></i> User</a>
+            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+              <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+              <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+              <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
+              <li class="divider"></li>
+              <li><a href="#"><i class="fa fa-unlock"></i> Make admin</a></li>
+            </ul>
+          </div>
+          -->
+          <!--
+          <div id="filter-criteria" class="panel panel-default col-xs-3">
+            <div id="grade-filter">
+              <div><i class="fa fa-graduation-cap fa-fw"></i><b>Grade</b></div>
+              <label><input type="checkbox" value="K" data-bind="checked: grades"></input> K</label>
+              <label><input type="checkbox" value="1" data-bind="checked: grades"></input> 1</label>
+              <label><input type="checkbox" value="2" data-bind="checked: grades"></input> 2</label>
+              <label><input type="checkbox" value="3" data-bind="checked: grades"></input> 3</label>
+              <label><input type="checkbox" value="4" data-bind="checked: grades"></input> 4</label>
+              <label><input type="checkbox" value="5" data-bind="checked: grades"></input> 5</label>
+              <label><input type="checkbox" value="6" data-bind="checked: grades"></input> 6</label>
+              <label><input type="checkbox" value="7" data-bind="checked: grades"></input> 7</label>
+              <label><input type="checkbox" value="8" data-bind="checked: grades"></input> 8</label>
+              <label><input type="checkbox" value="9" data-bind="checked: grades"></input> 9</label>
+              <label><input type="checkbox" value="10" data-bind="checked: grades"></input> 10</label>
+              <label><input type="checkbox" value="11" data-bind="checked: grades"></input> 11</label>
+              <label><input type="checkbox" value="12" data-bind="checked: grades"></input> 12</label>
+            </div>
+            <div id="subject-filter">
+              <div><i class="fa fa-book fa-fw"></i><b>Subject</b></div>
+              <label><input type="checkbox" value="ELA" data-bind="checked: subjects"></input> ELA </label>
+              <label><input type="checkbox" value="Science" data-bind="checked: subjects"></input> Science</label>
+              <label><input type="checkbox" value="Social Studies" data-bind="checked: subjects"></input> Social Studies</label>
+              <label><input type="checkbox" value="Math" data-bind="checked: subjects"></input> Math</label>
+              <label><input type="checkbox" value="Art" data-bind="checked: subjects"></input> Art</label>
+              <label><input type="checkbox" value="Music" data-bind="checked: subjects"></input> Music</label>
+              <label><input type="checkbox" value="Robotics" data-bind="checked: subjects"></input> Robotics</label>
+              <label><input type="checkbox" value="Foreign Language" data-bind="checked: subjects"></input> Foreign Language</i></label>
+              <label><input type="checkbox" value="PE" data-bind="checked: subjects"></input> PE</label>
+            </div>
+          </div>
+          -->
+            <!--
+            <div class="input-group">
+              <span class="input-group-addon" style="width: auto"><i class="fa fa-graduation-cap fa-fw"></i></span>
+              <select id="grade-filter" class="form-control" data-bind="options: grades, value: grade"></select>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon" style="width: auto"><i class="fa fa-book fa-fw"></i></span>
+              <select id="subject-filter" class="form-control" data-bind="options: subjects, value: subject"></select>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon" style="width: auto"><i class="fa fa-star-o fa-fw"></i></span>
+              <select id="rating-filter" class="form-control" data-bind="options: ratings, value: rating"></select>
+            </div>
+          </div>
+          -->
           <div id="video-list-view">
             <!-- ko foreach: filteredVideos -->
             <div class="video-info">

@@ -83,9 +83,18 @@ div.alert
   margin-bottom: 8px;
 }
 
-/*
-.video-info .video-attributes
+#filter-criteria
 {
-  margin-bottom: 8px;
+  padding: 8px;
 }
-*/
+
+#filter-criteria .input-group
+{
+  display: inline-flex;
+  margin: 4px;
+}
+
+#filter-criteria div.input-group span.input-group-add-on
+{
+  width: auto;
+}
