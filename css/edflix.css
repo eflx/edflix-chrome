@@ -49,6 +49,17 @@ div.alert
     -o-text-overflow: ellipsis;
 }
 
+#search-panel
+{
+  margin-bottom: 2px;
+}
+
+#filter-criteria select
+{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 #all-videos td
 {
   border: none;

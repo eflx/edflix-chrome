@@ -12,11 +12,16 @@ function VideosViewModel(videos)
     self.search = ko.observable("");
 
     // filter criteria
-    self.grades = ko.observableArray([]);
-    self.subjects = ko.observableArray([]);
-    self.ratings = ko.observableArray([]);
+    self.grades = ["", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+    self.grade = ko.observable("");
 
-    self.filterVideos = function(searchTerm)
+    self.ratings = ["", "1", "2", "3", "4", "5"];
+    self.rating = ko.observable("");
+
+    self.subjects = ["", "ELA", "Science", "Social Studies", "Math", "Art", "Music", "Robotics", "Foreign Language", "PE"];
+    self.subject = ko.observable("");
+
+    self.filterVideos = function()
     {
         var allVideos = self.videos();
 
@@ -27,9 +32,16 @@ function VideosViewModel(videos)
             var video = allVideos[i];
 
             var videoTitle = video.title.toLowerCase();
-            var searchTerm = searchTerm.toLowerCase();
+            var searchTerm = self.search().toLowerCase();
 
-            if (videoTitle.indexOf(searchTerm) != -1)
+            var titleMatches = (searchTerm == "") || (videoTitle.indexOf(searchTerm) != -1);
+            var gradeMatches = (self.grade() == "") || (video.grade == self.grade());
+            var ratingMatches = (self.rating() == "") || (parseInt(video.rating) >= parseInt(self.rating()));
+            var subjectMatches = (self.subject() == "") || (video.subject == self.subject());
+
+            var videoMatches = titleMatches && gradeMatches && ratingMatches && subjectMatches;
+
+            if (videoMatches)
             {
                 self.filteredVideos.push(video);
             }
@@ -46,8 +58,11 @@ function VideosViewModel(videos)
         }
 
         // set the filter function to be called when the search
-        // term changes...
+        // term changes, or when any of the filter criteria change...
         self.search.subscribe(self.filterVideos);
+        self.grade.subscribe(self.filterVideos);
+        self.rating.subscribe(self.filterVideos);
+        self.subject.subscribe(self.filterVideos);
 
         // ...and start it with filtering on nothing, so all
         // videos show

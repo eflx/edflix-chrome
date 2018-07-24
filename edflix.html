@@ -75,17 +75,18 @@
       </div>
       <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel, visible: view() == 'all'">
         <div class="panel-body">
-          <div class="input-group">
-            <!-- the filter icon and the filter menu -->
-            <!-- the search input box -->
+          <!-- the search input box -->
+          <div id="search-panel" class="panel">
             <input id="search" type="text" class="form-control" placeholder="Search" data-bind="textInput: search, valueUpdate: 'onkeyup'"></input>
-            <div class="input-group-addon">
-              <i class="fa fa-filter fa-fw"></i>
-            </div>
           </div>
-            <div id="filter-criteria">
-            filter criteria here
-            </div>
+
+          <!-- the filter criteria -->
+          <div id="filter-criteria" class="panel">
+            <p class="text text-muted small">Filter by:</p>
+            <small class="text text-muted">Grade:</small> <select data-bind="options: grades, value: grade"></select>
+            <small class="text text-muted">Rating:</small> <select data-bind="options: ratings, value: rating"></select>
+            <small class="text text-muted">Subject:</small> <select data-bind="options: subjects, value: subject"></select>
+          </div>
           <div id="video-list-view">
             <!-- ko foreach: filteredVideos -->
             <div class="video-info">
