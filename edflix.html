@@ -18,62 +18,48 @@
     <script src="VideosViewModel.js"></script>
     <script src="EdFlixViewModel.js"></script>
 </head>
-<body>
+<body style="background-color: #ddd">
+    <div id="current-video">
+      <form class="form-horizontal">
+          <fieldset>
+              <div class="input-group col-xs-3">
+                <span class="input-group-addon"><i class="fa fa-graduation-cap fa-fw"></i></span>
+                <select id="grade" name="grade" class="form-control" data-bind="options: grades, value: grade"></select>
+              </div>
+
+              <div class="input-group col-xs-6">
+                <span class="input-group-addon"><i class="fa fa-book fa-fw"></i></span>
+                <select id="subject" name="subject" class="form-control" data-bind="options: subjects, value: subject"></select>
+              </div>
+
+              <div class="input-group col-xs-12">
+                <span class="input-group-addon"><i class="fa fa-list fa-fw"></i></span>
+                <input id="categories" name="categories" class="form-control col-xs-8" placeholder="Your categories" data-role="tagsinput" data-bind="value: categories"></input>
+              </div>
+
+              <div class="input-group col-xs-6">
+                <span class="input-group-addon"><i class="fa fa-star-o fa-fw"></i></span>
+                <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="5" data-bind="value: rating">
+              </div>
+
+              <div class="input-group col-xs-12">
+                <span class="input-group-addon"><i class="fa fa-comment-o fa-fw"></i></span>
+                <textarea class="form-control" placeholder="Your comments" data-bind="value: comments"></textarea>
+              </div>
+
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <button id="add-video" class="btn btn-sm btn-primary" data-bind="visible: !videoAdded()"> Add to EdFlix</button>
+                  <button id="update-video" class="btn btn-sm btn-primary" data-bind="visible: videoAdded()">Update</button>
+                  <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-times"></i> Remove</button>
+                  <button id="share-video" class="btn btn-sm btn-primary" data-bind="visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
+                </div>
+              </div>
+          </fieldset>
+      </form>
+    </div>
     <div id="edflix">
-      <div>
-        <ul class="nav nav-tabs">
-          <li class="ellipsis" data-bind="css: { active: view() == 'current' }"><a id="current-video-link" href="#">This video</a></li>
-          <li class="ellipsis" data-bind="css: { active: view() == 'all' }"><a id="all-videos-link" href="#">All videos</a></li>
-        </ul>
-      </div>
-      <div id="current-video" class="panel panel-default" data-bind="with: videoViewModel, visible: view() == 'current'">
-        <div class="panel-heading">
-          <p class="panel-title ellipsis">
-            <label class="label label-success" data-bind="visible: videoAdded()"><i class="fa fa-check"></i> EdFlix</label>
-            <span data-bind="text: title"></span>
-          </p>
-        </div>
-        <div class="panel-body">
-          <form class="form-horizontal">
-              <fieldset>
-                  <div class="input-group col-xs-3">
-                    <span class="input-group-addon"><i class="fa fa-graduation-cap fa-fw"></i></span>
-                    <select id="grade" name="grade" class="form-control" data-bind="options: grades, value: grade"></select>
-                  </div>
-
-                  <div class="input-group col-xs-6">
-                    <span class="input-group-addon"><i class="fa fa-book fa-fw"></i></span>
-                    <select id="subject" name="subject" class="form-control" data-bind="options: subjects, value: subject"></select>
-                  </div>
-
-                  <div class="input-group col-xs-12">
-                    <span class="input-group-addon"><i class="fa fa-list fa-fw"></i></span>
-                    <input class="form-control" class="col-xs-8" placeholder="Your categories" data-role="tagsinput" data-bind="value: categories"></textarea>
-                  </div>
-
-                  <div class="input-group col-xs-6">
-                    <span class="input-group-addon"><i class="fa fa-star-o fa-fw"></i></span>
-                    <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="5" data-bind="value: rating">
-                  </div>
-
-                  <div class="input-group col-xs-12">
-                    <span class="input-group-addon"><i class="fa fa-comment-o fa-fw"></i></span>
-                    <textarea class="form-control" placeholder="Your comments" data-bind="value: comments"></textarea>
-                  </div>
-
-                  <div class="form-group">
-                      <div class="col-xs-12">
-                          <button id="add-video" class="btn btn-sm btn-primary" data-bind="visible: !videoAdded()"> Add to EdFlix</button>
-                          <button id="update-video" class="btn btn-sm btn-primary" data-bind="visible: videoAdded()">Update</button>
-                          <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-times"></i> Remove</button>
-                          <button id="share-video" class="btn btn-sm btn-primary" data-bind="visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
-                      </div>
-                  </div>
-              </fieldset>
-          </form>
-        </div>
-      </div>
-      <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel, visible: view() == 'all'">
+      <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel">
         <div class="panel-body">
           <!-- the search input box -->
           <div id="search-panel" class="panel">
@@ -82,26 +68,26 @@
 
           <!-- the filter criteria -->
           <div id="filter-criteria" class="panel">
-            <p class="text text-muted small">Filter by:</p>
+            <label class="label label-default">Filter</label>
             <small class="text text-muted">Grade:</small> <select data-bind="options: grades, value: grade"></select>
             <small class="text text-muted">Rating:</small> <select data-bind="options: ratings, value: rating"></select>
             <small class="text text-muted">Subject:</small> <select data-bind="options: subjects, value: subject"></select>
           </div>
-          <div id="video-list-view">
+
+          <div id="video-list">
             <!-- ko foreach: filteredVideos -->
             <div class="video-info">
               <div class="video-title ellipsis">
                 <a data-bind="attr: {href: url}" target="_blank"><span data-bind="text: title"></span></a>
               </div>
               <div class="video-comments ellipsis">
-                <small>Sample comment</small>
-                <!--<small><span data-bind="text: comments"></span></small>-->
+                <small><span data-bind="text: comments"></span></small>
               </div>
               <div class="video-attributes ellipsis">
-                <label class="label label-primary">Grade <span data-bind="text: grade"></span></label>
-                <label class="label label-warning"><span data-bind="text: subject"></span></label>
-                <!--<small><span data-bind="text: categories"></span></small>-->
+                <label class="label label-primary">Grade <span data-bind="text: grade() || 'None'"></span></label>
+                <label class="label label-warning"><span data-bind="text: subject() || 'No subject'"></span></label>
                 <label class="label label-success"><span data-bind="text: rating"></span> <i class="fa fa-star"></i></label>
+                <label class="label label-danger"><span data-bind="text: categories() || 'Uncategorized'"></span></label>
               </div>
             </div>
             <!-- /ko -->

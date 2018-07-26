@@ -8,9 +8,10 @@ function EdFlixViewModel()
     // ...and pass it to the nested objects to manipulate.
     // that way the single video view and the list of videos
     // will stay in sync
-    self.videoViewModel = new VideoViewModel(self.videos);
+    //self.videoViewModel = new VideoViewModel(self.videos);
     self.videosViewModel = new VideosViewModel(self.videos);
 
+    /*
     self.view = ko.observable("current");
 
     self.showCurrentVideo = function(event)
@@ -22,6 +23,7 @@ function EdFlixViewModel()
     {
         self.view("all");
     };
+    */
 
     self.applyBindings = function()
     {
@@ -30,8 +32,7 @@ function EdFlixViewModel()
 
     self.initialize = function()
     {
-        self.showAllVideos();
-
+        //self.showAllVideos();
         self.applyBindings();
     };
 

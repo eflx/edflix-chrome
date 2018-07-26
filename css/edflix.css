@@ -51,7 +51,16 @@ div.alert
 
 #search-panel
 {
-  margin-bottom: 2px;
+  margin-bottom: 8px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+#filter-criteria
+{
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  padding: 2px;
 }
 
 #filter-criteria select
@@ -81,7 +90,7 @@ div.alert
 
 .video-info:hover
 {
-  background-color: #eee;
+  background-color: #ddd;
 }
 
 .video-info .video-title
@@ -94,18 +103,16 @@ div.alert
   margin-bottom: 8px;
 }
 
-#filter-criteria
+#current-video
 {
+  margin-top: 20px;
+  border: 1px solid silver;
+  border-radius: 4px;
   padding: 8px;
+  background-color: #eee;
 }
 
-#filter-criteria .input-group
+#video-list .input-group-btn
 {
-  display: inline-flex;
-  margin: 4px;
-}
-
-#filter-criteria div.input-group span.input-group-add-on
-{
-  width: auto;
+  background-color: #ddd;
 }

@@ -1,5 +1,6 @@
 var edflixVm = new EdFlixViewModel();
 
+/*
 var addVideoButton = document.getElementById("add-video");
 addVideoButton.addEventListener("click", function(event) { edflixVm.videoViewModel.onAddVideoClicked(event) });
 
@@ -14,3 +15,6 @@ currentVideoLink.addEventListener("click", function(event) { edflixVm.showCurren
 
 var allVideosLink = document.getElementById("all-videos-link");
 allVideosLink.addEventListener("click", function(event) { edflixVm.showAllVideos(event) });
+*/
+
+//$(".video-info").on("hover", function() { console.log("hovering in"); }, function() { console.log("hovering out"); });

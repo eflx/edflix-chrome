@@ -1,23 +1,21 @@
-// Manages a single bookmark -- a video, article, link, etc. -- that
-// a user has bookmarked
-function VideoViewModel(videos)
+// Manages a single video that a user has bookmarked
+function VideoViewModel(videoAttributes, videos)
 {
     var self = this;
 
-    self.url = ko.observable("");
-    self.title = ko.observable("");
+    self.url = ko.observable((videoAttributes && videoAttributes.url) ? videoAttributes.url : "");
+    self.title = ko.observable((videoAttributes && videoAttributes.title) ? videoAttributes.title : "");
+    self.grade = ko.observable((videoAttributes && videoAttributes.grade) ? videoAttributes.grade : "");
+    self.subject = ko.observable((videoAttributes && videoAttributes.subject) ? videoAttributes.subject : "");
+    self.categories = ko.observable((videoAttributes && videoAttributes.categories) ? videoAttributes.categories : "");
+    self.rating = ko.observable((videoAttributes && videoAttributes.rating) ? parseInt(videoAttributes.rating) : 0);
+    self.comments = ko.observable((videoAttributes && videoAttributes.comments) ? videoAttributes.comments : "");
 
-    self.grades = ["", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+    self.grades = VideoViewModel.grades;
+    self.subjects = VideoViewModel.subjects;
 
-    // subjects will change based on grade, but for now, keep them static
-    self.subjects = ["", "ELA", "Science", "Social Studies", "Math", "Art", "Music", "Robotics", "Foreign Language", "PE"];
-
-    self.grade = ko.observable(""); // K-12
-    self.subject = ko.observable("");
-    self.categories = ko.observable("");
-    self.rating = ko.observable(0); // 0-10
-    self.comments = ko.observable("");
-
+    // an observable array of videos to which the add/update/delete methods
+    // will operate
     self.videos = videos;
 
     self.videoAdded = ko.observable(false);
@@ -32,13 +30,13 @@ function VideoViewModel(videos)
             grade: self.grade(),
             subject: self.subject(),
             categories: self.categories(),
-            rating: self.rating(),
+            rating: parseInt(self.rating()),
             comments: self.comments()
         };
 
         localStorage.setItem(self.url(), JSON.stringify(video));
 
-        self.videos.push(video);
+        self.videos.push(new VideoViewModel(video));
 
         self.videoAdded(true);
     };
@@ -61,11 +59,11 @@ function VideoViewModel(videos)
             return;
         }
 
-        video.grade = self.grade();
-        video.subject = self.subject();
-        video.categories = self.categories();
-        video.rating = self.rating();
-        video.comments = self.comments();
+        video.grade(self.grade());
+        video.subject(self.subject());
+        video.categories(self.categories());
+        video.rating(parseInt(self.rating()));
+        video.comments(self.comments());
 
         localStorage.setItem(self.url(), JSON.stringify(video));
     }
@@ -103,6 +101,7 @@ function VideoViewModel(videos)
 
     self.initialize = function()
     {
+        /*
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs)
         {
             var url = tabs[0].url;
@@ -120,10 +119,8 @@ function VideoViewModel(videos)
                 self.grade(video.grade);
                 self.subject(video.subject);
                 self.categories(video.categories);
-                self.rating(video.rating);
+                self.rating(parseInt(video.rating));
                 self.comments(video.comments);
-
-                self.videoAdded(true);
             }
             else
             {
@@ -135,10 +132,16 @@ function VideoViewModel(videos)
                 self.rating(0);
                 self.comments("");
 
-                self.videoAdded(false);
+                self.videos.push(new VideoViewModel(video, self.videos)));
             }
+
+            self.videoAdded(true);
         });
+        */
     };
 
     self.initialize();
 }
+
+VideoViewModel.grades = ["", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+VideoViewModel.subjects = ["", "ELA", "Science", "Social Studies", "Math", "Art", "Music", "Robotics", "Foreign Language", "PE"];
