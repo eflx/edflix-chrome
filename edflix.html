@@ -92,7 +92,7 @@
 
           <div id="video-list">
             <!-- ko foreach: filteredVideos -->
-            <div class="video-info" data-bind="class: { 'newly-added': isNew }, template: { name: 'video-info-template', data: $data }">
+            <div class="video-info" data-bind="css: { 'newly-added': videoIsNew }, template: { name: 'video-info-template', data: $data }">
             </div>
             <!-- /ko -->
           </div>
