@@ -1,28 +1,144 @@
 // Manages all videos that a user has bookmarked.
-function VideosViewModel(videos)
+function VideosViewModel(app)
 {
     var self = this;
 
-    // store a reference to the videos object received from the parent
-    // view-model. this is an observable array of videos
-    self.videos = videos;
+    self.app = app;
+
+    self.videos = ko.observableArray([]);
     self.filteredVideos = ko.observableArray([]);
 
     self.search = ko.observable("");
 
     // filter criteria
-    self.grades = VideoViewModel.grades;
+    self.grades = self.app.grades;
     self.grade = ko.observable("");
 
     self.ratings = [0, 1, 2, 3, 4, 5];
     self.rating = ko.observable(0);
 
-    self.subjects = VideoViewModel.subjects;
+    self.subjects = self.app.subjects;
     self.subject = ko.observable("");
+
+    // some elements -- like the video editor and new video item -- are
+    // activated when necessary (shown in the place where they are
+    // required), then deactivated when done (removed and placed back
+    // in the body element)
+    self.activateElement = function(element, parent, index)
+    {
+        element = $(element)[0];
+        parent = $(parent)[0];
+
+        index == undefined ? parent.appendChild(element) : parent.insertBefore(element, parent.childNodes[index]);
+
+        $(element).show();
+    };
+
+    self.deactivateElement = function(element)
+    {
+        element = $(element)[0];
+
+        ko.cleanNode(element);
+
+        var bodyElement = $("body")[0];
+
+        var parentElement = element.parentElement;
+        if (parentElement && parentElement != bodyElement)
+        {
+            parentElement.removeChild(element);
+
+            bodyElement.appendChild(element);
+        }
+
+        $(element).hide();
+    };
+
+    self.newVideo = function(videoData)
+    {
+        var newVideoElement = document.getElementById("new-video");
+
+        var newVideoViewModel = new VideoViewModel(videoData, self.app);
+        ko.applyBindings(newVideoViewModel, newVideoElement);
+
+        self.activateElement("#new-video", "#video-list", 0);
+
+        self.editVideo($("#new-video")[0]);
+    };
+
+    self.addVideo = function(videoData)
+    {
+        var newVideoViewModel = new VideoViewModel(videoData, self.app);
+        newVideoViewModel.videoAdded(true);
+        newVideoViewModel.videoIsNew(true);
+
+        self.videos.unshift(newVideoViewModel);
+
+        self.refresh();
+
+        self.deactivateElement("#new-video");
+    };
+
+    self.removeVideo = function(videoData)
+    {
+        // first close the video editor. it's open because that's
+        // how the remove event was triggered
+        self.closeVideoEditor();
+
+        // then find the video in the list...
+        var video = _.find(self.videos(), function(v) {
+            return v.url() == videoData.url;
+        });
+
+        // ..., remove it from the list...
+        self.videos.remove(video);
+
+        self.refresh();
+    };
+
+    self.editVideo = function(videoInfoElement)
+    {
+        // first check to see if the video editor element is already
+        // editing *another* video...
+        var videoEditorElement = $("#video-editor")[0];
+
+        var videoEditorParentElement = videoEditorElement.parentElement;
+
+        // if we are editing A video already...
+        if ($(videoEditorParentElement).hasClass("video-info"))
+        {
+            // ..., then if we are editing the CURRENT video...
+            if (videoEditorParentElement == videoInfoElement)
+            {
+                // ..., then don't do anything with this click
+                return;
+            }
+
+            // ..., otherwise, the click happened on ANOTHER video
+            // so remove the editor from this element...
+            videoEditorParentElement.removeChild(videoEditorElement);
+            $(videoEditorParentElement).removeClass("active");
+
+            ko.cleanNode(videoEditorElement);
+        }
+
+        // now we have one video editor element unbound to any video info
+        // element, so connect the bindings and add the video editor to the
+        // video info for editing
+        var videoViewModel = ko.dataFor(videoInfoElement);
+
+        ko.applyBindings(videoViewModel, videoEditorElement);
+
+        self.activateElement(videoEditorElement, videoInfoElement);
+        $(videoInfoElement).addClass("active");
+    };
 
     self.filterVideos = function()
     {
-        var allVideos = self.videos();
+        // sort videos by the sort criterion (todo: add sort criterion,
+        // default is by title)
+        var allVideos = _.sortBy(self.videos(), function(video) {
+            return video.title().toLowerCase();
+        });
 
         self.filteredVideos.removeAll();
 
@@ -47,18 +163,28 @@ function VideosViewModel(videos)
         }
     };
 
-    self.initializeAllVideos = function()
+    self.refresh = function()
     {
-        for (var i = 0; i < localStorage.length; i++)
+        // call this function whenever the original list of videos changes, because
+        // the view works on the filtered videos not the original ones. refresh()
+        // is a more intuitive name in those contexts
+        self.filterVideos();
+    };
+
+    self.initializeVideos = function()
+    {
+        // get all the videos from the app as a list (in the app videos
+        // are stored as a map)...
+        var videoList = _.map(self.app.videos, function(video, url){
+            return video;
+        });
+
+        for (var i = 0; i < videoList.length; i++)
         {
-            var video = JSON.parse(localStorage.getItem(localStorage.key(i)));
+            var videoViewModel = new VideoViewModel(videoList[i], self.app);
+            videoViewModel.videoAdded(true);
 
-            console.log("[VideosViewModel.initializeVideos]: video title is '" + video.title + "'");
-
-            var newVideoViewModel = new VideoViewModel(video, self.videos);
-            newVideoViewModel.videoAdded(true);
-
-            self.videos.push(newVideoViewModel);
+            self.videos.push(videoViewModel);
         }
     };
 
@@ -71,13 +197,12 @@ function VideosViewModel(videos)
         self.rating.subscribe(self.filterVideos);
         self.subject.subscribe(self.filterVideos);
 
-        // ...and start it with filtering on nothing, so all
-        // videos show
-        self.filterVideos("");
+        // ...and jump start the filtering, so all videos show
+        // initially
+        self.filterVideos();
     };
 
-    //self.addVideo
-    self.editVideo = function(event)
+    self.onEditVideo = function(event)
     {
         // stop the click event from from bubbling up to the document,
         // otherwise the document's click handler will remove the editor
@@ -85,152 +210,41 @@ function VideosViewModel(videos)
         event.stopPropagation();
 
         var videoInfoElement = $(this)[0];
-
-        // first check to see if the video editor element is already
-        // editing *another* video...
-        var videoEditorElement = $("#current-video")[0];
-
-        var videoEditorParentElement = videoEditorElement.parentElement;
-
-        // if we are editing A video already...
-        if ($(videoEditorParentElement).hasClass("video-info"))
-        {
-            // ..., then if we are editing the CURRENT video...
-            if (videoEditorParentElement == videoInfoElement)
-            {
-                // ..., then don't do anything with this click
-                return;
-            }
-
-            // ..., otherwise, the click happened on ANOTHER video
-            // so remove the editor from this element...
-            videoEditorParentElement.removeChild(videoEditorElement);
-
-            ko.cleanNode(videoEditorElement);
-        }
-
-        // now we have one video editor element unbound to any video info
-        // element, so connect the bindings and add the video editor to the
-        // video info for editing
-
-        var videoViewModel = ko.dataFor(videoInfoElement);
-
-        ko.applyBindings(videoViewModel, videoEditorElement);
-
-        $(videoInfoElement)[0].appendChild(videoEditorElement);
-
-        videoEditorElement.style.display = "block";
+        self.editVideo(videoInfoElement);
     };
 
     self.initializeVideoEditor = function()
     {
-        var videoEditorElement = $("#current-video")[0];
+        $("#video-editor").hide();
+    };
 
-        videoEditorElement.style.display = "none";
+    self.initializeNewVideo = function()
+    {
+        $("#new-video").hide();
+
+        //self.newVideo(self.app.newVideo);
     };
 
     self.closeVideoEditor = function()
     {
-        var bodyElement = $("body")[0];
+        $("#video-editor").parent().removeClass("active");
 
-        var videoEditorElement = $("#current-video")[0];
-
-        if (videoEditorElement.parentElement && videoEditorElement.parentElement != bodyElement)
-        {
-            videoEditorElement.parentElement.removeChild(videoEditorElement);
-
-            ko.cleanNode(videoEditorElement);
-
-            bodyElement.appendChild(videoEditorElement);
-        }
-
-        videoEditorElement.style.display = "none";
+        self.deactivateElement("#video-editor");
     };
 
     self.initializeEventHandlers = function()
     {
       $(document).on("click", self.closeVideoEditor);
-      $("#video-list").on("click", ".video-info", self.editVideo);
-    };
-
-    self.initializeNewVideo = function()
-    {
-        console.log("initializing new video");
-        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs)
-        {
-            var url = tabs[0].url;
-
-            // if the video is already added, note that. this will
-            // cause the ui to show the update button instead of
-            // the add button. if not, then add the video, so the
-            // user does not have to click again
-            var video = JSON.parse(localStorage.getItem(url));
-
-            if (video)
-            {
-                /*
-                self.url(video.url);
-                self.title(video.title);
-                self.grade(video.grade);
-                self.subject(video.subject);
-                self.categories(video.categories);
-                self.rating(parseInt(video.rating));
-                self.comments(video.comments);
-                */
-                // select video in the list
-                console.log("selecting video in the list");
-            }
-            else
-            {
-                /*
-                self.url(url);
-                self.title(tabs[0].title);
-                self.grade("");
-                self.subject("");
-                self.categories("");
-                self.rating(0);
-                self.comments("");
-                */
-
-                video = {
-                    url: url,
-                    title: tabs[0].title,
-                    grade: "",
-                    subject: "",
-                    categories: "",
-                    rating: 0,
-                    comments: ""
-                };
-                // create a new view model for the video and mark it
-                // as added to the list
-                console.log("adding video '" + tabs[0].title + "'");
-
-                var videoViewModel = new VideoViewModel(video, self.videos);
-                videoViewModel.videoAdded(true);
-
-                self.videos.push(videoViewModel);
-                self.filteredVideos.push(videoViewModel);
-            }
-        });
+      $("#video-list").on("click", ".video-info", self.onEditVideo);
     };
 
     self.initialize = function()
     {
-        /*
-        for (var i = 0; i < localStorage.length; i++)
-        {
-            var video = JSON.parse(localStorage.getItem(localStorage.key(i)));
-
-            self.videos.push(video);
-        }
-        */
-        // first prepare the list UI, then initialize the new
-        // video that the user just clicked on
-        self.initializeAllVideos();
+        self.initializeVideos();
         self.initializeVideoEditor();
+        self.initializeNewVideo();
         self.initializeFiltering();
         self.initializeEventHandlers();
-        self.initializeNewVideo();
     };
 
     self.initialize();

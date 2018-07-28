@@ -1,25 +1,39 @@
 // Manages a single video that a user has bookmarked
-function VideoViewModel(videoAttributes, videos)
+function VideoViewModel(attributes, app)
 {
     var self = this;
 
-    self.url = ko.observable((videoAttributes && videoAttributes.url) ? videoAttributes.url : "");
-    self.title = ko.observable((videoAttributes && videoAttributes.title) ? videoAttributes.title : "");
-    self.grade = ko.observable((videoAttributes && videoAttributes.grade) ? videoAttributes.grade : "");
-    self.subject = ko.observable((videoAttributes && videoAttributes.subject) ? videoAttributes.subject : "");
-    self.categories = ko.observable((videoAttributes && videoAttributes.categories) ? videoAttributes.categories : "");
-    self.rating = ko.observable((videoAttributes && videoAttributes.rating) ? parseInt(videoAttributes.rating) : 0);
-    self.comments = ko.observable((videoAttributes && videoAttributes.comments) ? videoAttributes.comments : "");
+    self.app = app;
 
-    self.grades = VideoViewModel.grades;
-    self.subjects = VideoViewModel.subjects;
+    self.url = ko.observable((attributes && attributes.url) ? attributes.url : "");
+    self.title = ko.observable((attributes && attributes.title) ? attributes.title : "");
+    self.grade = ko.observable((attributes && attributes.grade) ? attributes.grade : "");
+    self.subject = ko.observable((attributes && attributes.subject) ? attributes.subject : "");
+    self.categories = ko.observable((attributes && attributes.categories) ? attributes.categories : "");
+    self.rating = ko.observable((attributes && attributes.rating) ? parseInt(attributes.rating) : 0);
+    self.comments = ko.observable((attributes && attributes.comments) ? attributes.comments : "");
 
-    // an observable array of videos to which the add/update/delete methods
-    // will operate
-    self.videos = videos;
+    self.grades = self.app.grades;
+    self.subjects = self.app.subjects;
 
     self.videoAdded = ko.observable(false);
 
+    self.videoIsNew = ko.observable(false);
+
+    self.raw = function()
+    {
+        return {
+            url: self.url(),
+            title: self.title(),
+            grade: self.grade(),
+            subject: self.subject(),
+            categories: self.categories(),
+            rating: parseInt(self.rating()),
+            comments: self.comments()
+        };
+    };
+
+    /*
     self.addVideo = function()
     {
         console.log("adding video '" + self.title() + "'");
@@ -40,19 +54,39 @@ function VideoViewModel(videoAttributes, videos)
 
         self.videoAdded(true);
     };
+    */
 
+    /*
     self.onAddVideoClicked = function(event)
     {
         self.addVideo();
 
         event.preventDefault();
     };
+    */
 
+    /*
+    self.getVideo = function(url)
+    {
+        for (var i = 0; i < self.videos().length; i++)
+        {
+            var v = self.videos()[i];
+            if (v.url() == url)
+            {
+                return v;
+            }
+        }
+
+        return null;
+    };
+    */
+
+    /*
     self.updateVideo = function(event)
     {
         console.log("updating video '" + self.title() + "'");
 
-        var video = JSON.parse(localStorage.getItem(self.url()));
+        var video = self.getVideo(self.url());
 
         if (!video)
         {
@@ -65,16 +99,20 @@ function VideoViewModel(videoAttributes, videos)
         video.rating(parseInt(self.rating()));
         video.comments(self.comments());
 
-        localStorage.setItem(self.url(), JSON.stringify(video));
+        //localStorage.setItem(self.url(), JSON.stringify(video));
     }
+    */
 
+    /*
     self.onUpdateVideoClicked = function(event)
     {
         self.updateVideo();
 
         event.preventDefault();
     };
+    */
 
+    /*
     self.deleteVideo = function()
     {
         console.log("deleting video '" + self.title() + "'");
@@ -91,13 +129,16 @@ function VideoViewModel(videoAttributes, videos)
 
         self.videoAdded(false);
     }
+    */
 
+    /*
     self.onDeleteVideoClicked = function(event)
     {
         self.deleteVideo();
 
         event.preventDefault();
     };
+    */
 
     self.initialize = function()
     {
@@ -119,8 +160,10 @@ function VideoViewModel(videoAttributes, videos)
                 self.grade(video.grade);
                 self.subject(video.subject);
                 self.categories(video.categories);
-                self.rating(parseInt(video.rating));
+                self.rating(video.rating);
                 self.comments(video.comments);
+
+                self.videoAdded(true);
             }
             else
             {
@@ -132,16 +175,11 @@ function VideoViewModel(videoAttributes, videos)
                 self.rating(0);
                 self.comments("");
 
-                self.videos.push(new VideoViewModel(video, self.videos)));
+                self.videoAdded(false);
             }
-
-            self.videoAdded(true);
         });
         */
     };
 
     self.initialize();
 }
-
-VideoViewModel.grades = ["", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
-VideoViewModel.subjects = ["", "ELA", "Science", "Social Studies", "Math", "Art", "Music", "Robotics", "Foreign Language", "PE"];

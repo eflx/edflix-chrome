@@ -88,6 +88,24 @@ div.alert
   margin: 4px;
 }
 
+.video-info.active
+{
+  background-color: lightcyan;
+  border-color: darkcyan;
+}
+
+.video-info.adding-new
+{
+  background-color: lightgoldenrodyellow;
+  border-color: darkgoldenrod;
+}
+
+.video-info.newly-added
+{
+  background-color: palegreen;
+  border-color: darkgreen;
+}
+
 .video-info:hover
 {
   background-color: #ddd;
@@ -103,7 +121,7 @@ div.alert
   margin-bottom: 8px;
 }
 
-#current-video
+#video-editor
 {
   margin-top: 20px;
   border: 1px solid silver;
