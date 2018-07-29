@@ -20,6 +20,8 @@ function VideosViewModel(app)
     self.subjects = self.app.subjects;
     self.subject = ko.observable("");
 
+    self.editingNewVideo = false;
+
     // some elements -- like the video editor and new video item -- are
     // activated when necessary (shown in the place where they are
     // required), then deactivated when done (removed and placed back
@@ -62,6 +64,8 @@ function VideosViewModel(app)
 
         self.activateElement("#new-video", "#video-list", 0);
 
+        self.editingNewVideo = true;
+
         self.editVideo($("#new-video")[0]);
     };
 
@@ -76,6 +80,8 @@ function VideosViewModel(app)
         self.refresh();
 
         self.deactivateElement("#new-video");
+
+        self.editingNewVideo = false;
     };
 
     self.removeVideo = function(videoData)
@@ -129,6 +135,7 @@ function VideosViewModel(app)
         ko.applyBindings(videoViewModel, videoEditorElement);
 
         self.activateElement(videoEditorElement, videoInfoElement);
+
         $(videoInfoElement).addClass("active");
     };
 
@@ -209,7 +216,21 @@ function VideosViewModel(app)
         // preventing it from editing the video
         event.stopPropagation();
 
+        // check if the video info element is the new video element
+        // in which case, don't allow editing that video until the
+        // new video is done
         var videoInfoElement = $(this)[0];
+
+        if ($(videoInfoElement).hasClass("adding-new"))
+        {
+            return;
+        }
+
+        if (self.editingNewVideo)
+        {
+            return;
+        }
+
         self.editVideo(videoInfoElement);
     };
 
@@ -221,15 +242,22 @@ function VideosViewModel(app)
     self.initializeNewVideo = function()
     {
         $("#new-video").hide();
-
-        //self.newVideo(self.app.newVideo);
     };
 
     self.closeVideoEditor = function()
     {
+        // keep the video editor open if we're editing the new
+        // video
+        if (self.editingNewVideo)
+        {
+            return;
+        }
+
         $("#video-editor").parent().removeClass("active");
 
         self.deactivateElement("#video-editor");
+
+        self.editingNewVideo = false;
     };
 
     self.initializeEventHandlers = function()

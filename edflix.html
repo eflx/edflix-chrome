@@ -21,6 +21,9 @@
 <body style="background-color: #ddd">
     <script type="text/html" id="video-info-template">
         <div class="video-title ellipsis">
+          <!-- ko if: videoIsNew -->
+          <label class="label label-success"><i class="fa fa-check"></i> Added</label>
+          <!-- /ko -->
           <a data-bind="attr: {href: url}" target="_blank"><span data-bind="text: title"></span></a>
         </div>
         <div class="video-comments ellipsis">
@@ -92,7 +95,7 @@
 
           <div id="video-list">
             <!-- ko foreach: filteredVideos -->
-            <div class="video-info" data-bind="css: { 'newly-added': videoIsNew }, template: { name: 'video-info-template', data: $data }">
+            <div class="video-info" data-bind="template: { name: 'video-info-template', data: $data }">
             </div>
             <!-- /ko -->
           </div>

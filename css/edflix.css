@@ -1,7 +1,7 @@
 body
 {
     width: 500px;
-    font-family: "Roboto";
+    font-family: Roboto, Arial;
     background-color: #f0f0f0;
     /*margin: 0px;*/
 }
@@ -98,12 +98,6 @@ div.alert
 {
   background-color: lightgoldenrodyellow;
   border-color: darkgoldenrod;
-}
-
-.video-info.newly-added
-{
-  background-color: palegreen;
-  border-color: darkgreen;
 }
 
 .video-info:hover

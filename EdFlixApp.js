@@ -50,6 +50,8 @@ function EdFlixApp()
 
         self.videos[video.url] = video;
 
+        localStorage.setItem(video.url, JSON.stringify(video));
+
         self.videosViewModel.addVideo(video);
     };
 
@@ -60,12 +62,16 @@ function EdFlixApp()
 
         delete self.videos[video.url];
 
+        localStorage.removeItem(video.url);
+
         self.videosViewModel.removeVideo(video);
     };
 
     self.saveVideo = function(video)
     {
         console.log("saving video '" + video.title + "'");
+
+        localStorage.setItem(self.url(), JSON.stringify(video));
     };
 
     self.shareVideo = function(video)
