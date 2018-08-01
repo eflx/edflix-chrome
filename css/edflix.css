@@ -100,11 +100,6 @@ div.alert
   border-color: darkgoldenrod;
 }
 
-.video-info:hover
-{
-  background-color: #ddd;
-}
-
 .video-info .video-title
 {
   margin-bottom: 8px;
