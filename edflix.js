@@ -1,4 +1,4 @@
-var edflixVm = new EdFlixViewModel();
+var edflix = new EdFlixApp();
 
 /*
 var addVideoButton = document.getElementById("add-video");

@@ -1,28 +1,53 @@
 // Manages all videos that a user has bookmarked.
-function VideosViewModel(videos)
+function VideosViewModel(app)
 {
     var self = this;
 
-    // store a reference to the videos object received from the parent
-    // view-model. this is an observable array of videos
-    self.videos = videos;
+    self.app = app;
+
+    self.videos = ko.observableArray([]);
     self.filteredVideos = ko.observableArray([]);
 
     self.search = ko.observable("");
 
     // filter criteria
-    self.grades = VideoViewModel.grades;
+    self.grades = self.app.grades;
     self.grade = ko.observable("");
 
     self.ratings = [0, 1, 2, 3, 4, 5];
     self.rating = ko.observable(0);
 
-    self.subjects = VideoViewModel.subjects;
+    self.subjects = self.app.subjects;
     self.subject = ko.observable("");
+
+    self.removeVideo = function(video)
+    {
+        // first close the video editor. it's open because that's
+        // how the remove event was triggered
+        self.closeVideoEditor();
+
+        // then find the video in the list...
+        var videoToRemove = _.find(self.videos(), function(v) {
+            return v.url() == video.url;
+        });
+
+        // ..., remove it from the list...
+        self.videos.remove(videoToRemove);
+
+        // ..., and filter the remaining videos again because the
+        // list shows the filtered videos, not the original ones
+        self.filterVideos();
+
+        console.log("[VideosViewModel.removeVideo]: removed '" + videoToRemove.title() + "'");
+    };
 
     self.filterVideos = function()
     {
-        var allVideos = self.videos();
+        // sort videos by the sort criterion (todo: add sort criterion,
+        // default is by title)
+        var allVideos = _.sortBy(self.videos(), function(video) {
+            return video.title();
+        });
 
         self.filteredVideos.removeAll();
 
@@ -47,18 +72,20 @@ function VideosViewModel(videos)
         }
     };
 
-    self.initializeAllVideos = function()
+    self.initializeVideos = function()
     {
-        for (var i = 0; i < localStorage.length; i++)
+        // get all the videos from the app as a list (in the app videos
+        // are stored as a map)...
+        var videoList = _.map(self.app.videos, function(video, url){
+            return video;
+        });
+
+        for (var i = 0; i < videoList.length; i++)
         {
-            var video = JSON.parse(localStorage.getItem(localStorage.key(i)));
+            var videoViewModel = new VideoViewModel(videoList[i], self.app);
+            videoViewModel.videoAdded(true);
 
-            console.log("[VideosViewModel.initializeVideos]: video title is '" + video.title + "'");
-
-            var newVideoViewModel = new VideoViewModel(video, self.videos);
-            newVideoViewModel.videoAdded(true);
-
-            self.videos.push(newVideoViewModel);
+            self.videos.push(videoViewModel);
         }
     };
 
@@ -71,12 +98,11 @@ function VideosViewModel(videos)
         self.rating.subscribe(self.filterVideos);
         self.subject.subscribe(self.filterVideos);
 
-        // ...and start it with filtering on nothing, so all
-        // videos show
-        self.filterVideos("");
+        // ...and jump start the filtering, so all videos show
+        // initially
+        self.filterVideos();
     };
 
-    //self.addVideo
     self.editVideo = function(event)
     {
         // stop the click event from from bubbling up to the document,
@@ -112,7 +138,6 @@ function VideosViewModel(videos)
         // now we have one video editor element unbound to any video info
         // element, so connect the bindings and add the video editor to the
         // video info for editing
-
         var videoViewModel = ko.dataFor(videoInfoElement);
 
         ko.applyBindings(videoViewModel, videoEditorElement);
@@ -153,84 +178,12 @@ function VideosViewModel(videos)
       $("#video-list").on("click", ".video-info", self.editVideo);
     };
 
-    self.initializeNewVideo = function()
-    {
-        console.log("initializing new video");
-        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs)
-        {
-            var url = tabs[0].url;
-
-            // if the video is already added, note that. this will
-            // cause the ui to show the update button instead of
-            // the add button. if not, then add the video, so the
-            // user does not have to click again
-            var video = JSON.parse(localStorage.getItem(url));
-
-            if (video)
-            {
-                /*
-                self.url(video.url);
-                self.title(video.title);
-                self.grade(video.grade);
-                self.subject(video.subject);
-                self.categories(video.categories);
-                self.rating(parseInt(video.rating));
-                self.comments(video.comments);
-                */
-                // select video in the list
-                console.log("selecting video in the list");
-            }
-            else
-            {
-                /*
-                self.url(url);
-                self.title(tabs[0].title);
-                self.grade("");
-                self.subject("");
-                self.categories("");
-                self.rating(0);
-                self.comments("");
-                */
-
-                video = {
-                    url: url,
-                    title: tabs[0].title,
-                    grade: "",
-                    subject: "",
-                    categories: "",
-                    rating: 0,
-                    comments: ""
-                };
-                // create a new view model for the video and mark it
-                // as added to the list
-                console.log("adding video '" + tabs[0].title + "'");
-
-                var videoViewModel = new VideoViewModel(video, self.videos);
-                videoViewModel.videoAdded(true);
-
-                self.videos.push(videoViewModel);
-                self.filteredVideos.push(videoViewModel);
-            }
-        });
-    };
-
     self.initialize = function()
     {
-        /*
-        for (var i = 0; i < localStorage.length; i++)
-        {
-            var video = JSON.parse(localStorage.getItem(localStorage.key(i)));
-
-            self.videos.push(video);
-        }
-        */
-        // first prepare the list UI, then initialize the new
-        // video that the user just clicked on
-        self.initializeAllVideos();
+        self.initializeVideos();
         self.initializeVideoEditor();
         self.initializeFiltering();
         self.initializeEventHandlers();
-        self.initializeNewVideo();
     };
 
     self.initialize();

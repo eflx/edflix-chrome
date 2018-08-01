@@ -16,12 +16,11 @@
     <script src="js/bootstrap-rating-input.min.js"></script>
     <script src="VideoViewModel.js"></script>
     <script src="VideosViewModel.js"></script>
-    <script src="EdFlixViewModel.js"></script>
+    <!--<script src="EdFlixViewModel.js"></script>-->
+    <script src="EdFlixApp.js"></script>    
 </head>
 <body style="background-color: #ddd">
     <div id="current-video">
-      <form class="form-horizontal">
-          <fieldset>
               <div class="input-group col-xs-3">
                 <span class="input-group-addon"><i class="fa fa-graduation-cap fa-fw"></i></span>
                 <select id="grade" name="grade" class="form-control" data-bind="options: grades, value: grade"></select>
@@ -47,16 +46,12 @@
                 <textarea class="form-control" placeholder="Your comments" data-bind="value: comments"></textarea>
               </div>
 
-              <div class="form-group">
-                <div class="col-xs-12">
-                  <button id="add-video" class="btn btn-sm btn-primary" data-bind="visible: !videoAdded()"> Add to EdFlix</button>
-                  <button id="update-video" class="btn btn-sm btn-primary" data-bind="visible: videoAdded()">Update</button>
-                  <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-times"></i> Remove</button>
-                  <button id="share-video" class="btn btn-sm btn-primary" data-bind="visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
-                </div>
+              <div class="input-group btn-group col-xs-12">
+                <button id="add-video" class="btn btn-sm btn-primary" data-bind="click: function() { app.addVideo($data.raw()); }, visible: !videoAdded()"> Add to EdFlix</button>
+                <button id="save-video" class="btn btn-sm btn-primary" data-bind="click: function() { app.saveVideo($data.raw()); }, visible: videoAdded()">Save</button>
+                <button id="delete-video" class="btn btn-sm btn-danger" data-bind="click: function() { app.removeVideo($data.raw()); }, visible: videoAdded()"><i class="fa fa-times"></i> Remove</button>
+                <button id="share-video" class="btn btn-sm btn-primary" data-bind="click: function() { app.shareVideo($data.raw()); }, visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
               </div>
-          </fieldset>
-      </form>
     </div>
     <div id="edflix">
       <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel">
@@ -84,10 +79,10 @@
                 <small><span data-bind="text: comments"></span></small>
               </div>
               <div class="video-attributes ellipsis">
-                <label class="label label-primary">Grade <span data-bind="text: grade() || 'None'"></span></label>
-                <label class="label label-warning"><span data-bind="text: subject() || 'No subject'"></span></label>
+                <label class="label label-primary">Grade <span data-bind="text: grade"></span></label>
+                <label class="label label-warning"><span data-bind="text: subject"></span></label>
                 <label class="label label-success"><span data-bind="text: rating"></span> <i class="fa fa-star"></i></label>
-                <label class="label label-danger"><span data-bind="text: categories() || 'Uncategorized'"></span></label>
+                <label class="label label-danger"><span data-bind="text: categories"></span></label>
               </div>
             </div>
             <!-- /ko -->
