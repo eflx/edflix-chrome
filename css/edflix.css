@@ -1,7 +1,7 @@
 body
 {
     width: 500px;
-    font-family: "Roboto";
+    font-family: Roboto, Arial;
     background-color: #f0f0f0;
     /*margin: 0px;*/
 }
@@ -88,6 +88,18 @@ div.alert
   margin: 4px;
 }
 
+.video-info.active
+{
+  background-color: lightcyan;
+  border-color: darkcyan;
+}
+
+.video-info.adding-new
+{
+  background-color: lightgoldenrodyellow;
+  border-color: darkgoldenrod;
+}
+
 .video-info:hover
 {
   background-color: #ddd;
@@ -103,7 +115,7 @@ div.alert
   margin-bottom: 8px;
 }
 
-#current-video
+#video-editor
 {
   margin-top: 20px;
   border: 1px solid silver;

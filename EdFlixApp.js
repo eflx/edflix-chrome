@@ -9,11 +9,38 @@ function EdFlixApp()
 
     self.videosViewModel = null;
 
+    self.newVideo = function()
+    {
+        var video = null;
+
+        chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+            var url = tabs[0].url;
+
+            video = JSON.parse(localStorage.getItem(url));
+
+            // if the video was found in the list, then this is an
+            // existing video (todo: highlight in the list)
+            if (video)
+            {
+                return;
+            }
+
+            video = {
+                url: tabs[0].url,
+                title: tabs[0].title,
+                grade: "K",
+                rating: 0,
+                categories: "",
+                comments: ""
+            };
+
+            self.videosViewModel.newVideo(video);
+        });
+    };
+
     self.addVideo = function(video)
     {
         // add to the array of videos, then add to the videos viewmodel
-        console.log("adding video '" + video.title + "'");
-
         if (self.videos[video.url])
         {
             console.log("video already exists");
@@ -22,6 +49,10 @@ function EdFlixApp()
         }
 
         self.videos[video.url] = video;
+
+        localStorage.setItem(video.url, JSON.stringify(video));
+
+        self.videosViewModel.addVideo(video);
     };
 
     self.removeVideo = function(video)
@@ -31,53 +62,34 @@ function EdFlixApp()
 
         delete self.videos[video.url];
 
+        localStorage.removeItem(video.url);
+
         self.videosViewModel.removeVideo(video);
     };
 
     self.saveVideo = function(video)
     {
         console.log("saving video '" + video.title + "'");
+
+        localStorage.setItem(self.url(), JSON.stringify(video));
     };
 
     self.shareVideo = function(video)
     {
-       console.log("sharing video '" + url + "'");
+        console.log("sharing video '" + url + "'");
     };
 
     self.initializeVideos = function()
     {
-        self.videos["http://knockoutjs.com/documentation/computedObservables.html"] = {
-            url: "http://knockoutjs.com/documentation/computedObservables.html",
-            title: "Knockout Computed Observables",
-            grade: "K",
-            subject: "Science",
-            categories: ["programming", "javascript"],
-            rating: 4,
-            comments: "Knockout JS"
-        };
+        for (var i = 0; i < localStorage.length; i++)
+        {
+            var video = JSON.parse(localStorage.getItem(localStorage.key(i)));
 
-        self.videos["https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms"] = {
-            url: "https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms",
-            title: "The Flask Mega-Tutorial Part III: Web Forms -- miguelgrinberg.com",
-            grade: "K",
-            subject: "Social Studies",
-            categories: ["programming", "python", "flask"],
-            rating: 5,
-            comments: "Flask"
-        };
-
-        self.videos["https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ii-templates"] = {
-            url: "https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ii-templates",
-            title: "The Flask Mega-Tutorial Part II: Templates -- miguelgrinberg.com",
-            grade: 2,
-            subject: "Robotics",
-            categories: ["programming", "python"],
-            rating: 3,
-            comments: "Templates"
-        };
+            self.videos[video.url] = video;
+        }
     };
 
-    self.initializeVideosViewModel = function()
+    self.initializeVideosView = function()
     {
         self.videosViewModel = new VideosViewModel(self);
     };
@@ -90,7 +102,7 @@ function EdFlixApp()
     self.initialize = function()
     {
         self.initializeVideos();
-        self.initializeVideosViewModel();
+        self.initializeVideosView();
         self.applyBindings();
     };
 
