@@ -13,50 +13,94 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/underscore-min.js"></script>
     <script src="js/knockout-min.js"></script>
-    <script src="js/bootstrap-tagsinput.js"></script>
     <script src="js/bootstrap-rating-input.min.js"></script>
-    <script src="EdFlixViewModel.js"></script>
+    <script src="VideoViewModel.js"></script>
+    <script src="VideosViewModel.js"></script>
+    <script src="EdFlixApp.js"></script>    
 </head>
-<body>
-    <div id="edflix" class="panel panel-primary">
-        <div class="panel-heading"><span data-bind="text: title"></span></div>
-        <!-- ko if: videoAdded -->
-        <div class="text-muted"><i class="fa fa-check-square-o"></i>Added to EdFlix</div>
-        <!-- /ko -->
-        <div class="panel-body">
-            <form class="form-horizontal">
-                <fieldset>
-                    <div class="input-group col-xs-3">
-                      <span class="input-group-addon"><i class="fa fa-graduation-cap fa-fw"></i></span>
-                      <select id="grade" name="grade" class="form-control" data-bind="options: grades, value: grade"></select>
-                    </div>
-
-                    <div class="input-group col-xs-6">
-                      <span class="input-group-addon"><i class="fa fa-star-o fa-fw"></i></span>
-                      <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="10" data-bind="value: rating">
-                    </div>
-
-                    <div class="input-group col-xs-12">
-                      <span class="input-group-addon"><i class="fa fa-tags fa-fw"></i></span>
-                      <input class="form-control" placeholder="Type tags here" data-role="tagsinput" data-bind="value: tags"></textarea>
-                    </div>
-
-                    <div class="input-group col-xs-12">
-                      <span class="input-group-addon"><i class="fa fa-comment-o fa-fw"></i></span>
-                      <textarea class="form-control" placeholder="Your comments" data-bind="value: comments"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <button id="update-video" class="btn btn-sm btn-success" data-bind="visible: videoAdded()"><i class="fa fa-check fa-2x"></i></button>
-                            <button id="delete-video" class="btn btn-sm btn-danger" data-bind="visible: videoAdded()"><i class="fa fa-trash-o fa-2x"></i></button>
-                            <button id="share-video" class="btn btn-sm btn-default" data-bind="visible: videoAdded()"><i class="fa fa-share-alt fa-2x"></i></button>
-                            <button id="add-video" class="btn btn-sm btn-primary" data-bind="visible: !videoAdded()"><i class="fa fa-plus fa-2x"></i></button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+<body style="background-color: #ddd">
+    <script type="text/html" id="video-info-template">
+        <div class="video-title ellipsis">
+          <!-- ko if: videoIsNew -->
+          <label class="label label-success"><i class="fa fa-check"></i> Added</label>
+          <!-- /ko -->
+          <a data-bind="attr: {href: url}" target="_blank"><span data-bind="text: title"></span></a>
         </div>
+        <div class="video-comments ellipsis">
+          <small><span data-bind="text: comments() || '(no comments)'"></span></small>
+        </div>
+        <div class="video-attributes ellipsis">
+          <label class="label label-primary">Grade <span data-bind="text: grade() || 'None'"></span></label>
+          <label class="label label-warning"><span data-bind="text: subject() || 'No subject'"></span></label>
+          <label class="label label-success"><span data-bind="text: rating"></span> <i class="fa fa-star"></i></label>
+          <label class="label label-danger"><span data-bind="text: categories() || 'Uncategorized'"></span></label>
+        </div>
+    </script>
+
+    <!-- div to edit the new video added by clicking the button on the toolbar -->
+    <div id="new-video" class="video-info adding-new" data-bind="template: { name: 'video-info-template', data: $data }">
+    </div>
+
+    <!-- div to edit any video's attributes -->
+    <div id="video-editor">
+      <div class="input-group col-xs-3">
+        <span class="input-group-addon"><i class="fa fa-graduation-cap fa-fw"></i></span>
+        <select id="grade" name="grade" class="form-control" data-bind="options: grades, value: grade"></select>
+      </div>
+
+      <div class="input-group col-xs-6">
+        <span class="input-group-addon"><i class="fa fa-book fa-fw"></i></span>
+        <select id="subject" name="subject" class="form-control" data-bind="options: subjects, value: subject"></select>
+      </div>
+
+      <div class="input-group col-xs-12">
+        <span class="input-group-addon"><i class="fa fa-list fa-fw"></i></span>
+        <input id="categories" name="categories" class="form-control col-xs-8" placeholder="Your categories" data-role="tagsinput" data-bind="value: categories"></input>
+      </div>
+
+      <div class="input-group col-xs-6">
+        <span class="input-group-addon"><i class="fa fa-star-o fa-fw"></i></span>
+        <input class="form-control rating" type="number" placeholder="Rating" data-icon-lib="fa" data-active-icon="fa-star" data-inactive-icon="fa-star-o" data-min="1" data-max="5" data-bind="value: rating">
+      </div>
+
+      <div class="input-group col-xs-12">
+        <span class="input-group-addon"><i class="fa fa-comment-o fa-fw"></i></span>
+        <textarea class="form-control" placeholder="Your comments" data-bind="value: comments"></textarea>
+      </div>
+
+      <div class="input-group btn-group col-xs-12">
+        <button id="add-video" class="btn btn-sm btn-primary" data-bind="click: function() { app.addVideo($data.raw()); }, visible: !videoAdded()"> Add to EdFlix</button>
+        <button id="save-video" class="btn btn-sm btn-primary" data-bind="click: function() { app.saveVideo($data.raw()); }, visible: videoAdded()">Save</button>
+        <button id="delete-video" class="btn btn-sm btn-danger" data-bind="click: function() { app.removeVideo($data.raw()); }, visible: videoAdded()"><i class="fa fa-times"></i> Remove</button>
+        <button id="share-video" class="btn btn-sm btn-primary" data-bind="click: function() { app.shareVideo($data.raw()); }, visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
+      </div>
+    </div>
+
+    <!-- the main view for the application -->
+    <div id="edflix">
+      <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel">
+        <div class="panel-body">
+          <!-- the search input box -->
+          <div id="search-panel" class="panel">
+            <input id="search" type="text" class="form-control" placeholder="Search" data-bind="textInput: search, valueUpdate: 'onkeyup'"></input>
+          </div>
+
+          <!-- the filter criteria -->
+          <div id="filter-criteria" class="panel">
+            <label class="label label-default">Filter</label>
+            <small class="text text-muted">Grade:</small> <select data-bind="options: grades, value: grade"></select>
+            <small class="text text-muted">Rating:</small> <select data-bind="options: ratings, value: rating"></select>
+            <small class="text text-muted">Subject:</small> <select data-bind="options: subjects, value: subject"></select>
+          </div>
+
+          <div id="video-list">
+            <!-- ko foreach: filteredVideos -->
+            <div class="video-info" data-bind="template: { name: 'video-info-template', data: $data }">
+            </div>
+            <!-- /ko -->
+          </div>
+        </div>
+      </div>
     </div>
     <script src="edflix.js"></script>
 </body>
