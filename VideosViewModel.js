@@ -101,6 +101,13 @@ function VideosViewModel(app)
         self.refresh();
     };
 
+    self.discardVideo = function()
+    {
+        self.deactivateElement("#new-video");
+
+        self.editingNewVideo = false;
+    };
+
     self.editVideo = function(videoInfoElement)
     {
         // first check to see if the video editor element is already
@@ -141,17 +148,11 @@ function VideosViewModel(app)
 
     self.filterVideos = function()
     {
-        // sort videos by the sort criterion (todo: add sort criterion,
-        // default is by title)
-        var allVideos = _.sortBy(self.videos(), function(video) {
-            return video.title().toLowerCase();
-        });
-
         self.filteredVideos.removeAll();
 
-        for (var i = 0; i < allVideos.length; i++)
+        for (var i = 0; i < self.videos().length; i++)
         {
-            var video = allVideos[i];
+            var video = self.videos()[i];
 
             var videoTitle = video.title().toLowerCase();
             var searchTerm = self.search().toLowerCase();

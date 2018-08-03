@@ -79,6 +79,11 @@ function EdFlixApp()
         console.log("sharing video '" + url + "'");
     };
 
+    self.discardVideo = function()
+    {
+        self.videosViewModel.discardVideo();
+    };
+
     self.initializeVideos = function()
     {
         for (var i = 0; i < localStorage.length; i++)

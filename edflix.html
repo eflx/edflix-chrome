@@ -68,8 +68,9 @@
         <textarea class="form-control" placeholder="Your comments" data-bind="value: comments"></textarea>
       </div>
 
-      <div class="input-group btn-group col-xs-12">
+      <div>
         <button id="add-video" class="btn btn-sm btn-primary" data-bind="click: function() { app.addVideo($data.raw()); }, visible: !videoAdded()"> Add to EdFlix</button>
+        <button id="discard-video" class="btn btn-sm btn-default" data-bind="click: function() { app.discardVideo(); }, visible: !videoAdded()"> Cancel</button>
         <button id="save-video" class="btn btn-sm btn-primary" data-bind="click: function() { app.saveVideo($data.raw()); }, visible: videoAdded()">Save</button>
         <button id="delete-video" class="btn btn-sm btn-danger" data-bind="click: function() { app.removeVideo($data.raw()); }, visible: videoAdded()"><i class="fa fa-times"></i> Remove</button>
         <button id="share-video" class="btn btn-sm btn-primary" data-bind="click: function() { app.shareVideo($data.raw()); }, visible: videoAdded()"><i class="fa fa-share-alt"></i> Share</button>
