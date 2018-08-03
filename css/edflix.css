@@ -69,11 +69,6 @@ div.alert
   border-radius: 4px;
 }
 
-#all-videos td
-{
-  border: none;
-}
-
 #video-list-view
 {
   overflow-y: scroll;
@@ -86,6 +81,11 @@ div.alert
   border-radius: 4px;
   padding: 8px;
   margin: 4px;
+}
+
+.video-info:hover
+{
+  border: 1px solid darkcyan;
 }
 
 .video-info.active
@@ -113,10 +113,10 @@ div.alert
 #video-editor
 {
   margin-top: 20px;
-  border: 1px solid silver;
-  border-radius: 4px;
-  padding: 8px;
-  background-color: #eee;
+  /*border: 1px solid silver;*/
+  /*border-radius: 4px;*/
+  /*padding: 8px;*/
+  /*background-color: #eee;*/
 }
 
 #video-list .input-group-btn

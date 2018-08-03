@@ -101,6 +101,13 @@ function VideosViewModel(app)
         self.refresh();
     };
 
+    self.discardVideo = function()
+    {
+        self.deactivateElement("#new-video");
+
+        self.editingNewVideo = false;
+    };
+
     self.editVideo = function(videoInfoElement)
     {
         // first check to see if the video editor element is already
