@@ -11,7 +11,7 @@ function VideoViewModel(videoData, app)
     self.subject = ko.observable((videoData && videoData.subject) ? videoData.subject : "");
     self.categories = ko.observable((videoData && videoData.categories) ? videoData.categories : "");
     self.rating = ko.observable((videoData && videoData.rating) ? parseInt(videoData.rating) : 0);
-    self.comments = ko.observable((videoData && videoData.comments) ? videoData.comments : "");
+    self.comment = ko.observable((videoData && videoData.comment) ? videoData.comment : "");
 
     self.grades = self.app.grades;
     self.subjects = self.app.subjects;
@@ -29,7 +29,7 @@ function VideoViewModel(videoData, app)
             subject: self.subject(),
             categories: self.categories(),
             rating: parseInt(self.rating()),
-            comments: self.comments()
+            comment: self.comment()
         };
     };
 

@@ -11,6 +11,15 @@
     "default_icon": "edflix.png",
     "default_popup": "edflix.html"
   },
-  "permissions": [ "storage", "tabs" ],
+  "permissions": [
+     "storage",
+      "tabs",
+      "cookies",
+      "bookmarks",
+      "webRequest",
+      "*://*.localhost/",
+      "*://*.13.127.38.120/",
+      "unlimitedStorage"
+     ],
   "web_accessible_resources": [ "templates/*" ]
 }
