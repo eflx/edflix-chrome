@@ -16,9 +16,20 @@
     <script src="js/bootstrap-rating-input.min.js"></script>
     <script src="VideoViewModel.js"></script>
     <script src="VideosViewModel.js"></script>
-    <script src="EdFlixApp.js"></script>    
+    <script src="auth.js"></script>  
+    <script src="EdFlixApp.js"></script>
+   
 </head>
-<body style="background-color: #ddd">
+<body style="background-color:white">
+  <section id="login">
+      <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container-fluid">
+            <div class="navbar-header" style="margin:10px 10px 10px 10px">
+                <a href="http://13.127.38.120:3000/home/all" class="btn btn-warning" target="_blank"> <i class="glyphicon glyphicon-envelope" style="margin-left:10px"></i>  <span style="margin-right:5px;"> Feedback</span> </a> <span style="margin-left:30px;"> <strong>Welcome to Edflix chrome extention</strong> </span>
+            </div>
+          
+          </div>
+        </nav>
     <script type="text/html" id="video-info-template">
         <div class="video-title ellipsis">
           <!-- ko if: videoIsNew -->
@@ -27,7 +38,7 @@
           <a data-bind="attr: {href: url}" target="_blank"><span data-bind="text: title"></span></a>
         </div>
         <div class="video-comments ellipsis">
-          <small><span data-bind="text: comments() || '(no comments)'"></span></small>
+          <small><span data-bind="text: comment() || '(no comments)'"></span></small>
         </div>
         <div class="video-attributes ellipsis">
           <label class="label label-primary">Grade <span data-bind="text: grade() || 'None'"></span></label>
@@ -38,10 +49,12 @@
     </script>
 
     <!-- div to edit the new video added by clicking the button on the toolbar -->
+    
     <div id="new-video" class="video-info adding-new" data-bind="template: { name: 'video-info-template', data: $data }">
     </div>
 
     <!-- div to edit any video's attributes -->
+
     <div id="video-editor">
       <div class="input-group col-xs-3">
         <span class="input-group-addon"><i class="fa fa-graduation-cap fa-fw"></i></span>
@@ -65,7 +78,7 @@
 
       <div class="input-group col-xs-12">
         <span class="input-group-addon"><i class="fa fa-comment-o fa-fw"></i></span>
-        <textarea class="form-control" placeholder="Your comments" data-bind="value: comments"></textarea>
+        <textarea class="form-control" placeholder="Your comments" data-bind="value: comment"></textarea>
       </div>
 
       <div>
@@ -78,31 +91,61 @@
     </div>
 
     <!-- the main view for the application -->
-    <div id="edflix">
-      <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel">
-        <div class="panel-body">
-          <!-- the search input box -->
-          <div id="search-panel" class="panel">
-            <input id="search" type="text" class="form-control" placeholder="Search" data-bind="textInput: search, valueUpdate: 'onkeyup'"></input>
-          </div>
-
-          <!-- the filter criteria -->
-          <div id="filter-criteria" class="panel">
-            <label class="label label-default">Filter</label>
-            <small class="text text-muted">Grade:</small> <select data-bind="options: grades, value: grade"></select>
-            <small class="text text-muted">Rating:</small> <select data-bind="options: ratings, value: rating"></select>
-            <small class="text text-muted">Subject:</small> <select data-bind="options: subjects, value: subject"></select>
-          </div>
-
-          <div id="video-list">
-            <!-- ko foreach: filteredVideos -->
-            <div class="video-info" data-bind="template: { name: 'video-info-template', data: $data }">
+      <div id="edflix" style="margin-top:60px">
+        
+        <div id="all-videos" class="panel panel-default" data-bind="with: videosViewModel">
+  
+          <div class="panel-body">
+            <!-- the search input box -->
+            <div id="search-panel" class="panel">
+              <input id="search" type="text" class="form-control" placeholder="Search" data-bind="textInput: search, valueUpdate: 'onkeyup'"></input>
             </div>
-            <!-- /ko -->
+
+            <!-- the filter criteria -->
+            <div id="filter-criteria" class="panel">
+              <label class="label label-default">Filter</label>
+              <small class="text text-muted">Grade:</small> <select data-bind="options: grades, value: grade"></select>
+              <small class="text text-muted">Rating:</small> <select data-bind="options: ratings, value: rating"></select>
+              <small class="text text-muted">Subject:</small> <select data-bind="options: subjects, value: subject"></select>
+            </div>
+
+            <div id="video-list">
+              <!-- ko foreach: filteredVideos -->
+              <div class="video-info" data-bind="template: { name: 'video-info-template', data: $data }">
+              </div>
+              <!-- /ko -->
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+    <!-- for login page -->
+    <section id="withoutlogin">
+      <div class="container">
+        <div class="panel panel-primary" style="margin:10px 10px 10px 10px" style="border-color:grey">
+          <div class="panel-heading">
+            <center><strong>Edflix</strong> is active, but <br> key features are missing</center>
+            
+          </div>
+          <div class="panel-body">
+            <ul>
+                Sign up now to unlock the following:
+              <li style="color:darkgrey">Add videos from  preferred websites</li>
+              <li style="color:darkgrey">Store your personal dictionary</li>
+              <li style="color:darkgrey">Save and access your video from any computer</li>
+            </ul>
+          </div>
+          <div class="panel-footer">
+            <center>
+                <a class="btn btn-info" href="http://localhost:3000/home/home" target="_blank" style="width:100px;border-radius:20px">LOG IN</a>
+                <p>Don't have an account? <a href="http://localhost:3000/home/home" target="_blank" >SIGN UP</a> It's free</p>
+            </center>
+
           </div>
         </div>
       </div>
-    </div>
+    </section>
     <script src="edflix.js"></script>
 </body>
 </html>

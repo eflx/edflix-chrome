@@ -4,6 +4,7 @@ function getUrl(tab)
     return tab.url;
 }
 
+
 chrome.runtime.onMessage.addListener(
     function(request, sender, callback)
     {
