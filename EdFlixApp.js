@@ -1,18 +1,33 @@
 function EdFlixApp()
 {
     var self = this;
-
     self.grades = ["", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
     self.subjects = ["", "ELA", "Science", "Social Studies", "Math", "Art", "Music", "Robotics", "Foreign Language", "PE"];
 
     self.videos = {};
-
     self.videosViewModel = null;
+
+    self.AuthValid =  function  () {
+        // chrome.cookies.getAll({}, cookies => alert(JSON.stringify(cookies)))
+        chrome.cookies.get({"url": "http://13.127.38.120/", "name": "edflix_user_auth"}, function(cookie) {
+            if(cookie) {
+                var temData = cookie.value.split('edflix_user_assess ')
+                $('#login').css('display','block')
+                $('#withoutlogin').css('display','none')          
+            }
+            else{
+                $('#login').css('display','none')
+                $('#withoutlogin').css('display','block')  
+            }
+        });
+
+    }
+
+    self.AuthValid();
 
     self.newVideo = function()
     {
         var video = null;
-
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
             var url = tabs[0].url;
 
@@ -33,7 +48,6 @@ function EdFlixApp()
                 categories: "",
                 comments: ""
             };
-
             self.videosViewModel.newVideo(video);
         });
     };
@@ -41,6 +55,7 @@ function EdFlixApp()
     self.addVideo = function(video)
     {
         // add to the array of videos, then add to the videos viewmodel
+        video.comment = video.comments
         if (self.videos[video.url])
         {
             console.log("video already exists");
@@ -50,8 +65,20 @@ function EdFlixApp()
 
         self.videos[video.url] = video;
 
-        localStorage.setItem(video.url, JSON.stringify(video));
-
+        // localStorage.setItem(video.url, JSON.stringify(video));
+        $.ajax({
+            type: "POST",
+            url: `https://edflix-platform.herokuapp.com/api/v1/users/${window.userid}/items`,
+            headers: {'Authorization' : `Bearer ${window.assess_tokan}`},            
+            data: video,
+            success: function (response){
+            console.log("View Added succesfully!")
+            },
+            error: function (error) {
+            console.log("Error in sending data please check it!")
+            },
+            async: false
+        });
         self.videosViewModel.addVideo(video);
     };
 
@@ -84,14 +111,36 @@ function EdFlixApp()
         self.videosViewModel.discardVideo();
     };
 
+    self.initializeData = function(data)
+    {
+        $.ajax({
+            type: "get",
+            url: `https://edflix-platform.herokuapp.com/api/v1/users/${window.userid}/items`,
+            headers: {'Authorization' : `Bearer ${window.assess_tokan}`},
+            success: function (response) {
+                data(response)
+            },
+            error : function (error) {
+                console.log("user log out")
+            },
+            async: false
+        })
+    };
+
     self.initializeVideos = function()
     {
-        for (var i = 0; i < localStorage.length; i++)
-        {
-            var video = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        self.initializeData(function(response){
+            var data = response.items
+            for (var i = 0; i < data.length; i++)
+            {
+                var video = JSON.parse(JSON.stringify(data[i]))
+                // console.log(video)
+                self.videos[data[i].url] = video
 
-            self.videos[video.url] = video;
-        }
+            }        
+            
+        })
+  
     };
 
     self.initializeVideosView = function()
@@ -106,10 +155,12 @@ function EdFlixApp()
 
     self.initialize = function()
     {
+       
         self.initializeVideos();
+
         self.initializeVideosView();
         self.applyBindings();
     };
-
     self.initialize();
+    
 }

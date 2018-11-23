@@ -3,4 +3,10 @@ var app = new EdFlixApp();
 
 // ..., then have the app process the new video from the
 // user selection
-app.newVideo();
+
+
+$( document ).ready(function () {
+    app.newVideo();
+    $('#username').text(' ' +  window.edflixusername);
+    $('#username').attr('title', window.edflixusername);
+}); 
