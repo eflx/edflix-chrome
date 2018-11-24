@@ -7,4 +7,6 @@ var app = new EdFlixApp();
 
 $( document ).ready(function () {
     app.newVideo();
+    $('#username').text(' ' +  window.edflixusername);
+    $('#username').attr('title', window.edflixusername);
 }); 
