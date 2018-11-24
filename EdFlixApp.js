@@ -46,7 +46,7 @@ function EdFlixApp()
                 grade: "K",
                 rating: 0,
                 categories: "",
-                comments: ""
+                comment: ""
             };
             self.videosViewModel.newVideo(video);
         });
@@ -55,7 +55,7 @@ function EdFlixApp()
     self.addVideo = function(video)
     {
         // add to the array of videos, then add to the videos viewmodel
-        video.comment = video.comments
+        video.comment = video.comment
         if (self.videos[video.url])
         {
             console.log("video already exists");
