@@ -24,12 +24,19 @@
   <section id="login">
       <nav class="navbar navbar-default navbar-fixed-top">
           <div class="container-fluid">
-            <div class="navbar-header" style="margin:10px 10px 10px 10px">
-                <a href="http://13.127.38.120:3000/home/all" class="btn btn-warning" target="_blank"> <i class="glyphicon glyphicon-envelope" style="margin-left:10px"></i>  <span style="margin-right:5px;"> Feedback</span> </a> <span style="margin-left:30px;"> <strong>Welcome to Edflix chrome extention</strong> </span>
-            </div>
+            <ul class="nav navbar-nav navbar-right" style="margin-left:40%">
+                <li><span> <strong>Welcome To EdFlix </strong> </span> <span id="username" class="glyphicon glyphicon-user" style="margin-left: 10%; white-space: nowrap;overflow: hidden; text-overflow: ellipsis;max-width: 25ch;" data-toggle="tooltip" title="Hooray!"> </span> </li>
+              </ul>
           
           </div>
         </nav>
+    <nav class="navbar navbar-transparent  navbar-fixed-bottom">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right" style="margin-left:80%">
+          <a href="http://13.127.38.120:3000/home/all" class="btn btn-warning" target="_blank"> <i class="glyphicon glyphicon-envelope" style="margin-left:10px"></i>  <span style="margin-right:5px;"> Feedback</span> </a>
+        </ul>
+      </div>
+    </nav>
     <script type="text/html" id="video-info-template">
         <div class="video-title ellipsis">
           <!-- ko if: videoIsNew -->
@@ -125,15 +132,15 @@
       <div class="container">
         <div class="panel panel-primary" style="margin:10px 10px 10px 10px" style="border-color:grey">
           <div class="panel-heading">
-            <center><strong>Edflix</strong> is active, but <br> key features are missing</center>
+            <center><strong>EdFlix - Organize Your Learning</strong> </center>
             
           </div>
           <div class="panel-body">
             <ul>
-                Sign up now to unlock the following:
-              <li style="color:darkgrey">Add videos from  preferred websites</li>
-              <li style="color:darkgrey">Store your personal dictionary</li>
-              <li style="color:darkgrey">Save and access your video from any computer</li>
+              <strong>Sign up now to unlock the following:</strong>
+              <li style="color:darkgrey">Add links or videos from any website</li>
+              <li style="color:darkgrey">Organize and tag your content</li>
+              <li style="color:darkgrey">Save and manage your collection</li>
             </ul>
           </div>
           <div class="panel-footer">

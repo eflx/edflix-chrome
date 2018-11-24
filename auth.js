@@ -7,7 +7,8 @@ chrome.cookies.get({"url": "http://13.127.38.120/", "name": "edflix_user_auth"},
     if(cookie) {
         var temData = cookie.value.split('edflix_user_assess ')
         window.userid  = temData[0];
-        window.assess_tokan = temData[1]     
+        window.assess_tokan = temData[1]   
+        window.edflixusername = temData[2]  
     }
   
 });
