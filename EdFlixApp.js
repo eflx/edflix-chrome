@@ -9,7 +9,7 @@ function EdFlixApp()
 
     self.AuthValid =  function  () {
         // chrome.cookies.getAll({}, cookies => alert(JSON.stringify(cookies)))
-        chrome.cookies.get({"url": "http://13.127.38.120/", "name": "edflix_user_auth"}, function(cookie) {
+        chrome.cookies.get({"url": "http://edtechdiary.com", "name": "edflix_user_auth"}, function(cookie) {
             if(cookie) {
                 var temData = cookie.value.split('edflix_user_assess ')
                 $('#login').css('display','block')

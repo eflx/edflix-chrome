@@ -19,6 +19,7 @@
       "webRequest",
       "*://*.localhost/",
       "*://*.13.127.38.120/",
+      "*://*.edtechdiary.com/",
       "unlimitedStorage"
      ],
   "web_accessible_resources": [ "templates/*" ]
